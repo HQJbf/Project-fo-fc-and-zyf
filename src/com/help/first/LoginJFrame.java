@@ -1,5 +1,6 @@
 package com.help.first;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 
 public class LoginJFrame extends JFrame implements MouseListener {
     int mark = 0;//错误标志
-    String userName;
+    String UserName;
     String password;
     String verification;
     String randomCode;
@@ -22,11 +23,21 @@ public class LoginJFrame extends JFrame implements MouseListener {
     ImageIcon loginUp = new ImageIcon("image/login/loginUp.png");
     ImageIcon loginDown = new ImageIcon("image/login/loginDown.png");
     JLabel login = new JLabel(loginUp);
-    //注册按键
-    ImageIcon registerUp = new ImageIcon("image/login/registerUp.png");
-    ImageIcon registerDown = new ImageIcon("image/login/registerDown.png");
-    JLabel register = new JLabel(registerUp);
-    //显示密码按键
+    //TODO：注册按键up
+    ImageIcon registerUp = new ImageIcon("image/login/registerUp(1).jpg");
+    Image img2 = registerUp.getImage();
+    int width2 = registerUp.getIconWidth() / 2; // 缩小为原来的一半
+    int height2 = registerUp.getIconHeight() / 2;
+    Image scaledImg2 = img2.getScaledInstance(width2, height2, Image.SCALE_SMOOTH);
+    ImageIcon registerUp2 = new ImageIcon(scaledImg2);
+    //TODO：注册按键down
+    ImageIcon registerDown = new ImageIcon("image/login/registerUp(1).jpg");
+    Image img1 = registerDown.getImage();
+    int width1 = registerDown.getIconWidth() / 2; // 缩小为原来的一半
+    int height1 = registerDown.getIconHeight() / 2;
+    Image scaledImg1 = img1.getScaledInstance(width1, height1, Image.SCALE_SMOOTH);
+    JLabel register = new JLabel(new ImageIcon(scaledImg1));
+    //TODO：显示密码按键
     ImageIcon showPasswordUp = new ImageIcon("image/login/showPasswordUp.png");
     ImageIcon showPasswordDown = new ImageIcon("image/login/showPasswordDown.png");
     JLabel showPassword = new JLabel(showPasswordUp);
@@ -37,7 +48,6 @@ public class LoginJFrame extends JFrame implements MouseListener {
     JTextField inputbox1 = new JTextField();
     JTextField inputbox2 = showFalse;
     JTextField inputbox3 = new JTextField();
-
     //登录界面
     public LoginJFrame() {
         randomCode = toRandom();
@@ -130,6 +140,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
         this.getContentPane().repaint();//刷新一下界面
     }
 
+    //TODO:生成随机验证码
     public String toRandom() {
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder();
@@ -147,6 +158,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
         return stringBuilder.toString();
     }
 
+    //TODO:判断是否能登录（信息是否正确）
     public boolean judge(String userName, String password, String verification) {
         File directory = new File("User\\" + userName);
         File file = new File(directory, userName + ".txt");
@@ -196,15 +208,15 @@ public class LoginJFrame extends JFrame implements MouseListener {
                 initImage();
             }
         } else if (obj == login) {
-            userName = inputbox1.getText();
+            UserName = inputbox1.getText();
             password = isShowPassword ? showTrue.getText() : showFalse.getText();
             verification = inputbox3.getText();
-            if (!judge(userName, password, verification)) {
+            if (!judge(UserName, password, verification)) {
                 new WrongJFrame(mark);
             } else {
                 this.setVisible(false);
-                new ChessGameFrame(userName);
-                new RightJFrame(2);
+                new ChessGameFrame(UserName);
+                new RightJFrame(2, UserName);
             }
         } else if (obj == register) {
             this.setVisible(false);
@@ -228,7 +240,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
         if (obj == login) {
             login.setIcon(loginUp);
         } else if (obj == register) {
-            register.setIcon(registerUp);
+            register.setIcon(registerUp2);
         }
     }
 

@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RightJFrame extends JFrame {
+    String Username;
     //正确提示界面
-    public RightJFrame(int mark) {
+    public RightJFrame(int mark,String username) {
+        this.Username=username;
         initJFrame();
         initText(mark);
         //setVisible(true);
@@ -39,7 +41,7 @@ public class RightJFrame extends JFrame {
                 jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
                 this.getContentPane().add(jLabel);
             }else {
-                JOptionPane.showMessageDialog(this, "登录成功！");
+                JOptionPane.showMessageDialog(this, "登录成功！欢迎"+Username);
 //                jLabel = new JLabel("登录成功！");
 //                JOptionPane.showMessageDialog(this, "游戏已保存");
 //                jLabel.setBounds(85, 60, 150, 30);

@@ -289,8 +289,8 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 }
                 countBlue = 0;
                 countRed = 0;
-                //判断目前回合数
-                for (int j = 0; j < count2; i++) {
+//判断目前回合数
+                for (int j = 0; j < count2; j++) {
                     if (j % 2 == 0) {
                         countBlue++;
                     }
@@ -300,7 +300,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 }
                 int row = 1;
                 int col = 1;
-                //再把每一个棋子塞到新的棋盘里
+//再把每一个棋子塞到新的棋盘里
                 for (int j = count2 * 127 + 1; j < count2 * 127 + 127; j += 2) {
                     char c = step.charAt(i);
                     char d = step.charAt(i + 1);
@@ -317,12 +317,18 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             }
             initChessBoard();
             setVisible(true);
-            new LoadJFrame(UserName);
+//            LoadJFrame loadFrame = new LoadJFrame(UserName);
+//            loadFrame.setVisible(true);
+           // while (loadFrame.isVisible()) {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+          //  }
             count2++;
         }
     }
-
-
     //TODO:添加回合数和步数显示
     private void initTurnAndStep() {
         if (isRedTurn) {
