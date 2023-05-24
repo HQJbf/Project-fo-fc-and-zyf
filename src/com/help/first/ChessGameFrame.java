@@ -315,6 +315,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             }
             initChessBoard();
             setVisible(true);
+            new LoadJFrame(UserName);
             count2++;
         }
     }
