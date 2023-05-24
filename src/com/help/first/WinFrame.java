@@ -23,4 +23,5 @@ public class WinFrame extends JFrame{
         //取消默认的组件居中方式
         this.setLayout(null);
     }
+
 }

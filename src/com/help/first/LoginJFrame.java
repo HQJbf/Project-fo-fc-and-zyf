@@ -1,19 +1,17 @@
 package com.help.first;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class LoginJFrame extends JFrame implements MouseListener {
+public class LoginJFrame extends JFrame implements MouseListener, KeyListener, ActionListener {
     int mark = 0;//错误标志
     String UserName;
-    String password;
+    String theKey;
     String verification;
     String randomCode;
     String nowInput = "";
@@ -50,15 +48,15 @@ public class LoginJFrame extends JFrame implements MouseListener {
     JTextField inputbox3 = new JTextField();
     //登录界面
     public LoginJFrame() {
-        randomCode = toRandom();
+        randomCode = produceRandom();
         initJFrame();
         initImage();
         code.addMouseListener(this);
         login.addMouseListener(this);
         register.addMouseListener(this);
+        inputbox3.addKeyListener(this);
         setVisible(true);
     }
-
     //初始化界面
     private void initJFrame() {
         //设置标题
@@ -68,7 +66,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
         //设置宽高
         this.setSize(650, 520);
         //设置置顶
-        this.setAlwaysOnTop(true);
+       // this.setAlwaysOnTop(true);
         //设置居中
         this.setLocationRelativeTo(null);
         //设置默认关闭模式
@@ -76,7 +74,6 @@ public class LoginJFrame extends JFrame implements MouseListener {
         //取消默认的组件居中方式
         this.setLayout(null);
     }
-
     //初始化图片
     private void initImage() {
         this.getContentPane().removeAll();//清空原本已经出现的所有图片
@@ -141,7 +138,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
     }
 
     //TODO:生成随机验证码
-    public String toRandom() {
+    public String produceRandom() {
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 1; i <= 4; i++) {
@@ -193,7 +190,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         Object obj = e.getSource();
         if (obj == code) {
-            randomCode = toRandom();
+            randomCode = produceRandom();
             if (!isShowPassword) nowInput = showFalse.getText();
             else nowInput = showTrue.getText();
             initImage();
@@ -209,9 +206,9 @@ public class LoginJFrame extends JFrame implements MouseListener {
             }
         } else if (obj == login) {
             UserName = inputbox1.getText();
-            password = isShowPassword ? showTrue.getText() : showFalse.getText();
+            theKey = isShowPassword ? showTrue.getText() : showFalse.getText();
             verification = inputbox3.getText();
-            if (!judge(UserName, password, verification)) {
+            if (!judge(UserName, theKey, verification)) {
                 new WrongJFrame(mark);
             } else {
                 this.setVisible(false);
@@ -237,6 +234,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         Object obj = e.getSource();
+
         if (obj == login) {
             login.setIcon(loginUp);
         } else if (obj == register) {
@@ -250,6 +248,55 @@ public class LoginJFrame extends JFrame implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code=e.getKeyCode();
+        String v=inputbox3.getText();
+        if(v.length()==4){
+            if (code==10){
+                UserName = inputbox1.getText();
+                theKey = isShowPassword ? showTrue.getText() : showFalse.getText();
+                verification = inputbox3.getText();
+                if (!judge(UserName, theKey, verification)) {
+                    new WrongJFrame(mark);
+                } else {
+                    this.setVisible(false);
+                    new ChessGameFrame(UserName);
+                    new RightJFrame(2, UserName);
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+//        int code=e.getKeyCode();
+//        if (code==10){
+//            UserName = inputbox1.getText();
+//            theKey = isShowPassword ? showTrue.getText() : showFalse.getText();
+//            verification = inputbox3.getText();
+//            if (!judge(UserName, theKey, verification)) {
+//                new WrongJFrame(mark);
+//            } else {
+//                this.setVisible(false);
+//                new ChessGameFrame(UserName);
+//                new RightJFrame(2, UserName);
+//            }
+//        }
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
     }
 }
