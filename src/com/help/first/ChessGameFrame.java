@@ -1,5 +1,7 @@
 package com.help.first;
 
+import com.sun.jdi.event.StepEvent;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -277,7 +279,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     //TODO：游戏复盘
     public void recallGame() {
         int count1 = step.length() / 127;
-        int count2 = 0;
+        int count2 = 1;
         for (int i = 0; i < count1; i++) {
             if (step.length() != 0) {
                 if (step.charAt(127 * count2) == 'R') {
@@ -288,7 +290,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 countBlue = 0;
                 countRed = 0;
                 //判断目前回合数
-                for (int j = 0; j <= count2; i++) {
+                for (int j = 0; j < count2; i++) {
                     if (j % 2 == 0) {
                         countBlue++;
                     }
@@ -458,6 +460,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             new LoadJFrame(UserName);
             setVisible(false);
         } else if (obj == recallItem) {
+         //   System.out.println(222);点击之后会打印，说明到这里都没有什么问题
           recallGame();
         } else if (obj == restartButton) {
             initZero();
