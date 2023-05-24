@@ -20,8 +20,8 @@ public class LoginJFrame extends JFrame implements MouseListener {
     boolean isShowPassword = false;
     JLabel code = new JLabel();//验证码
     //登录按键
-    ImageIcon loginUp = new ImageIcon("image/login/loginUp.png");
-    ImageIcon loginDown = new ImageIcon("image/login/loginDown.png");
+    ImageIcon loginUp = new ImageIcon("image/login/登录(1).jpg");
+    ImageIcon loginDown = new ImageIcon("image/login/登录(1).jpg");
     JLabel login = new JLabel(loginUp);
     //TODO：注册按键up
     ImageIcon registerUp = new ImageIcon("image/login/registerUp(1).jpg");
@@ -32,11 +32,11 @@ public class LoginJFrame extends JFrame implements MouseListener {
     ImageIcon registerUp2 = new ImageIcon(scaledImg2);
     //TODO：注册按键down
     ImageIcon registerDown = new ImageIcon("image/login/registerUp(1).jpg");
-    Image img1 = registerDown.getImage();
-    int width1 = registerDown.getIconWidth() / 2; // 缩小为原来的一半
-    int height1 = registerDown.getIconHeight() / 2;
-    Image scaledImg1 = img1.getScaledInstance(width1, height1, Image.SCALE_SMOOTH);
-    JLabel register = new JLabel(new ImageIcon(scaledImg1));
+//    Image img1 = registerDown.getImage();
+//    int width1 = registerDown.getIconWidth() / 2; // 缩小为原来的一半
+//    int height1 = registerDown.getIconHeight() / 2;
+//    Image scaledImg1 = img1.getScaledInstance(width1, height1, Image.SCALE_SMOOTH);
+    JLabel register = new JLabel(registerDown);
     //TODO：显示密码按键
     ImageIcon showPasswordUp = new ImageIcon("image/login/showPasswordUp.png");
     ImageIcon showPasswordDown = new ImageIcon("image/login/showPasswordDown.png");

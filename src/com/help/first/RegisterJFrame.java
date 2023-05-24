@@ -14,8 +14,8 @@ public class RegisterJFrame extends JFrame implements MouseListener {
     String passwordAgain;
 
     //注册按键
-    ImageIcon registerUp = new ImageIcon("image/register/registerUp.png");
-    ImageIcon registerDown = new ImageIcon("image/register/registerDown.png");
+    ImageIcon registerUp = new ImageIcon("image/register/registerUp(1).jpg");
+    ImageIcon registerDown = new ImageIcon("image/register/registerUp(1).jpg");
     JLabel register = new JLabel(registerUp);
     //重置按键
     ImageIcon resetUp = new ImageIcon("image/register/resetUp.png");

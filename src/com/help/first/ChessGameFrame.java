@@ -138,7 +138,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     //TODO：初始化界面
     private void initChessGameJFrame() {
         //设置宽高
-        setSize(1000, 810);
+        setSize(1000, 750);
         //设置标题
         setTitle("2023 CS109 Project by FC and ZYF");
         // 使得窗体居中
@@ -175,8 +175,27 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
 
     //TODO：添加按钮，此方法在initimage里面调用
     private void initChessGameButton() {
+//        ImageIcon chessboardIcon = new ImageIcon("image/chessboard/chessboard.jpg");
+//        JLabel chessboardLabel = new JLabel(chessboardIcon);
+//        chessboardLabel.setBounds(0, 0, 600, 600);
+//        add(chessboardLabel);
+        //修改按钮背景为透明，并添加图片
+        ImageIcon restartIcon = new ImageIcon("image/FrameButton/重新游戏(3).jpg");
+        restartButton.setIcon(restartIcon);
+        restartButton.setOpaque(false);
+        restartButton.setBorderPainted(false);
+
+        ImageIcon regretIcon = new ImageIcon("image/FrameButton/悔棋(1).jpg");
+        regretButton.setIcon(regretIcon);
+        regretButton.setOpaque(false);
+        regretButton.setBorderPainted(false);
+
+        ImageIcon cancelRegretIcon = new ImageIcon("image/FrameButton/切换背景(1).jpg");
+        cancelRegretButton.setIcon(cancelRegretIcon);
+        cancelRegretButton.setOpaque(false);
+        cancelRegretButton.setBorderPainted(false);
         //添加重新开始按键
-        restartButton.setLocation(600, 270);
+        restartButton.setLocation(600+50, 270);
         restartButton.setSize(220, 60);
         restartButton.setFont(new Font("黑体", Font.BOLD, 20));
         restartButton.setForeground(Color.white);
@@ -184,7 +203,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         restartButton.addActionListener(this);
         add(restartButton);
         //添加悔棋按键
-        regretButton.setLocation(600, 370);
+        regretButton.setLocation(600+50, 370);
         regretButton.setSize(220, 60);
         regretButton.setFont(new Font("黑体", Font.BOLD, 20));
         regretButton.setForeground(Color.white);
@@ -192,7 +211,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         regretButton.addActionListener(this);
         add(regretButton);
         //添加取消悔棋按键
-        cancelRegretButton.setLocation(600, 470);
+        cancelRegretButton.setLocation(600+50, 470);
         cancelRegretButton.setSize(220, 60);
         cancelRegretButton.setFont(new Font("黑体", Font.BOLD, 20));
         cancelRegretButton.setForeground(Color.white);
