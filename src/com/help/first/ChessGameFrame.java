@@ -30,7 +30,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     JMenuItem reloginItem = new JMenuItem("重新登录");
     JMenuItem saveItem = new JMenuItem("保存游戏");
     JMenuItem loadItem = new JMenuItem("加载游戏");
-    JMenuItem recallItem = new JMenuItem("复盘游戏");
+    JMenuItem recallItem = new JMenuItem("切换背景");
     String pathChessboard = "image/chessboard/chessboard.jpg";
     String pathBackground = "image/background/background1.jpg";
     //创建一些按钮
@@ -701,6 +701,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     int preX = -1, preY = -1;
 
     //TODO：行棋逻辑和每走一步都存档
+
     @Override
     public void mouseClicked(MouseEvent e) {
         //这里obj指的是点击的东西
@@ -762,6 +763,8 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 preX = -1;
                 preY = -1;
             }
+        }else{
+            new WinFrame(UserName);
         }
 //        if(obj==replay)
 //        {
