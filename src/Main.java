@@ -6,5 +6,6 @@ public class Main {
 //        new LoginJFrame();
         new ChessGameFrame("123");
 //        new ChessGameFrame("ZYF");
+// 第二次尝试
     }
 }
