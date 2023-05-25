@@ -200,23 +200,32 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         changeBackgroundButton.addActionListener(this);
         add(changeBackgroundButton);
     }
+
     //TODO：添加按钮，此方法在initimage里面调用
     private void initChessGameButtonPosition() {
         //添加重新开始按键
-        restartButton.setLocation(600, 270);
+        restartButton.setLocation(600+50, 270);
         restartButton.setSize(220, 60);
         restartButton.setFont(new Font("黑体", Font.BOLD, 20));
         restartButton.setForeground(Color.white);
         restartButton.setContentAreaFilled(false);
         add(restartButton);
         //添加悔棋按键
-        regretButton.setLocation(600, 370);
+        regretButton.setLocation(600+50, 370);
         regretButton.setSize(220, 60);
         regretButton.setFont(new Font("黑体", Font.BOLD, 20));
         regretButton.setForeground(Color.white);
         regretButton.setContentAreaFilled(false);
         add(regretButton);
+        changeBackgroundButton.setLocation(600 + 50, 470);
+        changeBackgroundButton.setSize(220, 60);
+        changeBackgroundButton.setFont(new Font("黑体", Font.BOLD, 20));
+        changeBackgroundButton.setForeground(Color.white);
+        changeBackgroundButton.setContentAreaFilled(false);
+        changeBackgroundButton.addActionListener(this);
+        add(changeBackgroundButton);
     }
+
     //TODO：初始数据清零
     private void initZero() {
         step = "";
@@ -226,7 +235,6 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         winFlag = false;
         isRedTurn = false;
     }
-
     //TODO：初始化动物、地面、兽穴和河流陷阱的数据
     private void initChessGameData() {
         for (int i = 1; i <= 7; i++) {
@@ -279,7 +287,6 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
     }
-
     //TODO：初始化图片
     private void initChessGameImage() {
         this.getContentPane().removeAll();//清空原本已经出现的所有图片
@@ -287,7 +294,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         initChessGameButtonPosition();//添加按键位置
         initChessPiece();//添加棋子
         initPositions();//添加兽穴和陷阱
-       // initChessGameButton();
+        // initChessGameButton();
         initChessBoard();//添加棋盘
         initBackground();//添加背景
         this.getContentPane().repaint();//刷新一下界面
@@ -478,18 +485,24 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     @Override
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
-        if (obj == saveItem) {
+        if (obj == reloginItem) {
+            this.setVisible(false);
+            new LoginJFrame();
+        } else if (obj == saveItem) {
             new SaveJFrame(UserName, step);
         } else if (obj == loadItem) {
             new LoadJFrame(UserName);
             setVisible(false);
         } else if (obj == recallItem) {
-            //   System.out.println(222);点击之后会打印，说明到这里都没有什么问题
             recallGame();
         } else if (obj == restartButton) {
-            initZero();
-            initChessGameData();
-            initChessGameImage();
+            if(winFlag){
+                new WinFrame(UserName);
+            }else{
+                initZero();
+                initChessGameData();
+                initChessGameImage();
+            }
         } else if (obj == regretButton) {
             if (step.length() <= 127) {
                 initZero();
@@ -696,6 +709,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     }
 
     int preX = -1, preY = -1;
+
     //TODO：行棋逻辑和每走一步都存档
     @Override
     public void mouseClicked(MouseEvent e) {

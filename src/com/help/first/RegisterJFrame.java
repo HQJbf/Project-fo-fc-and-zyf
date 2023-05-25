@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class RegisterJFrame extends JFrame implements MouseListener {
 
-    int mark = 0;//错误标志
+    String condition="";//错误标志
     String UserName;
     String password;
     String passwordAgain;
@@ -92,16 +92,16 @@ public class RegisterJFrame extends JFrame implements MouseListener {
 
     public boolean judge(String userName, String password, String passwordAgain) {
         File file = new File("User\\" + userName);
-        if (userName.equals("") || password.equals("") || passwordAgain.equals("")) {
-            mark = 6;
+        if (userName.length() == 0 || password.length() == 0 || passwordAgain.length() == 0) {
+           condition="请完善信息";
             return false;
         }
-        if (file.exists()) {
-            mark = 7;
+        if (file.exists()){
+            condition="用户名已存在";
             return false;
         }
         if (!password.equals(passwordAgain)) {
-            mark = 8;
+            condition="两次密码输入不一致";
             return false;
         }
         return true;
@@ -115,7 +115,7 @@ public class RegisterJFrame extends JFrame implements MouseListener {
             password = inputbox2.getText();
             passwordAgain = inputbox3.getText();
             if (!judge(UserName, password, passwordAgain)) {
-                new WrongJFrame(mark);
+                new WrongJFrame(condition);
             } else {
                 CreatUtil creatUtil = new CreatUtil(UserName, password);
                 try {
@@ -125,7 +125,7 @@ public class RegisterJFrame extends JFrame implements MouseListener {
                 }
                 setVisible(false);
                 new LoginJFrame();
-                new RightJFrame(1, UserName);
+                new RightJFrame("ok", UserName);
             }
         } else if (obj == cancel) {
             setVisible(false);
@@ -145,12 +145,12 @@ public class RegisterJFrame extends JFrame implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Object obj = e.getSource();
-        if (obj == register) {
-            register.setIcon(registerUp);
-        } else if (obj == cancel) {
-            cancel.setIcon(resetUp);
-        }
+//        Object obj = e.getSource();
+//        if (obj == register) {
+//            register.setIcon(registerUp);
+//        } else if (obj == cancel) {
+//            cancel.setIcon(resetUp);
+//        }
     }
 
     @Override

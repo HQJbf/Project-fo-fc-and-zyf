@@ -11,7 +11,6 @@ public class SaveJFrame extends JFrame implements MouseListener, ActionListener 
 
     //当前用户
     String UserName;
-
     //创建保存按键
     JButton[] save = new JButton[10];
     File directory;
@@ -32,6 +31,10 @@ public class SaveJFrame extends JFrame implements MouseListener, ActionListener 
         this.setVisible(true);
     }
 
+    //TODO：初始化按钮
+//    private void initJButton(){
+//
+//    }
     //初始化界面
     private void initJFrame() {
         //设置宽高

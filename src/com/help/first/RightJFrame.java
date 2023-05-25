@@ -6,7 +6,7 @@ import java.awt.*;
 public class RightJFrame extends JFrame {
     String Username;
     //正确提示界面
-    public RightJFrame(int mark,String username) {
+    public RightJFrame(String mark,String username) {
         this.Username=username;
         initJFrame();
         initText(mark);
@@ -28,8 +28,8 @@ public class RightJFrame extends JFrame {
     }
 
     //初始化文字
-    private void initText(int mark) {
-        if (mark == 1) {
+    private void initText(String mark) {
+        if (mark.equals("ok")) {
                 JLabel jLabel;
                 jLabel = new JLabel("注册成功！");
                 jLabel.setBounds(85, 50, 150, 30);

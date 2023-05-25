@@ -6,9 +6,9 @@ import java.awt.*;
 public class WrongJFrame extends JFrame {
 
     //错误提示界面
-    public WrongJFrame(int mark) {
+    public WrongJFrame(String condition) {
         initJFrame();
-        initText(mark);
+        initText(condition);
         setVisible(true);
     }
 
@@ -29,52 +29,46 @@ public class WrongJFrame extends JFrame {
     }
 
     //初始化文字
-    private void initText(int mark) {
+    private void initText(String condition) {
         JLabel jLabel;
-        if (mark == 1) {
+        if (condition.equals("错误编码101")) {
             jLabel = new JLabel("错误编码:101");
             jLabel.setBounds(75, 60, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
-        if (mark == 2) {
+        if (condition.equals("错误编码102")) {
             jLabel = new JLabel("错误编码:102");
             jLabel.setBounds(75, 60, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
 
-        if (mark == 3) {
+        if (condition.equals("错误编码103")){
             jLabel = new JLabel("错误编码:103");
             jLabel.setBounds(75, 60, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
-        if (mark == 4) {
+        if (condition.equals("错误编码104")){
             jLabel = new JLabel("错误编码:104");
             jLabel.setBounds(75, 60, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
-//        if (mark == 5) {
-//            jLabel = new JLabel("错误编码:105");
-//            jLabel.setBounds(75, 60, 150, 30);
-//            jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
-//            this.getContentPane().add(jLabel);
-//        }
-        if (mark == 6) {
-            jLabel = new JLabel("输入为空！");
+        if (condition.equals("请完善信息")) {
+            jLabel = new JLabel("请完善信息！");
             jLabel.setBounds(85, 60, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
-        if (mark == 7) {
-            jLabel = new JLabel("用户已存在！");
+        if (condition.equals("用户名已存在")) {
+            jLabel = new JLabel("用户名已存在！");
             jLabel.setBounds(80, 60, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
-        if (mark == 8) {
+        if (condition.equals("两次密码输入不一致")) {
             jLabel = new JLabel("两次密码输入不一致");
             jLabel.setBounds(50, 50, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
@@ -84,19 +78,19 @@ public class WrongJFrame extends JFrame {
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
-        if (mark == 9) {
+        if (condition.equals("用户不存在")) {
             jLabel = new JLabel("用户不存在！");
             jLabel.setBounds(80, 60, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
-        if (mark == 10) {
+        if (condition.equals("密码不正确")) {
             jLabel = new JLabel("密码不正确！");
             jLabel.setBounds(80, 60, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
-        if (mark == 11) {
+        if (condition.equals("验证码不正确")) {
             jLabel = new JLabel("验证码不正确！");
             JLabel jLabel2 = new JLabel("提示：验证码包括两位字母和数字");
             jLabel2.setBounds(5, 65, 250, 30);
@@ -106,7 +100,7 @@ public class WrongJFrame extends JFrame {
             this.getContentPane().add(jLabel);
             this.getContentPane().add(jLabel2);
         }
-        if (mark == 12) {
+        if (condition.equals("存档为空")) {
             jLabel = new JLabel("存档为空！");
             jLabel.setBounds(85, 60, 150, 30);
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));

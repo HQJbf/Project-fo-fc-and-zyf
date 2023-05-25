@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class LoginJFrame extends JFrame implements MouseListener, KeyListener, ActionListener {
-    int mark = 0;//错误标志
+    String condition = "";//错误标志
     String UserName;
     String theKey;
     String verification;
@@ -163,11 +163,11 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
         File directory = new File("User\\" + userName);
         File file = new File(directory, userName + ".txt");
         if (userName.equals("") || password.equals("") || verification.equals("")) {
-            mark = 6;
+            condition="输入为空";
             return false;
         }
         if (!directory.exists()) {
-            mark = 9;
+            condition="用户不存在";
             return false;
         }
         Scanner sc;
@@ -179,11 +179,11 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
         String truePassword;
         truePassword = sc.next();
         if (!truePassword.equals(password)) {
-            mark = 10;
+            condition="密码不正确";
             return false;
         }
         if (!this.randomCode.equals(verification)) {
-            mark = 11;
+            condition="验证码不正确";
             return false;
         }
         return true;
@@ -212,12 +212,12 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
             theKey = isShowPassword ? showTrue.getText() : showFalse.getText();
             verification = inputbox3.getText();
             if (!judge(UserName, theKey, verification)) {
-                System.out.println(mark);
-                new WrongJFrame(mark);
+                System.out.println(condition);
+                new WrongJFrame(condition);
             } else {
                 this.setVisible(false);
                 new ChessGameFrame(UserName);
-                new RightJFrame(2, UserName);
+                new RightJFrame("no", UserName);
             }
         } else if (obj == register) {
             this.setVisible(false);
@@ -268,11 +268,11 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
                 theKey = isShowPassword ? showTrue.getText() : showFalse.getText();
                 verification = inputbox3.getText();
                 if (!judge(UserName, theKey, verification)) {
-                    new WrongJFrame(mark);
+                    new WrongJFrame(condition);
                 } else {
                     this.setVisible(false);
                     new ChessGameFrame(UserName);
-                    new RightJFrame(2, UserName);
+                    new RightJFrame("no", UserName);
                 }
             }
         }

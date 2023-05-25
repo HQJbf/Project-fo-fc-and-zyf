@@ -68,29 +68,29 @@ public class LoadJFrame extends JFrame implements MouseListener, ActionListener 
             if (obj == save[1] && UserName.equals("ZYF")) {
                 this.setVisible(false);
                 new ChessGameFrame(UserName);
-                new WrongJFrame(1);
+                new WrongJFrame("错误编码101");
                 return;
             } else if (obj == save[2] && UserName.equals("ZYF")) {
                 this.setVisible(false);
                 new ChessGameFrame(UserName);
-                new WrongJFrame(2);
+                new WrongJFrame("错误编码102");
                 return;
             } else if (obj == save[3] && UserName.equals("ZYF")) {
                 this.setVisible(false);
                 new ChessGameFrame(UserName);
-                new WrongJFrame(3);
+                new WrongJFrame("错误编码103");
                 return;
             } else if (obj == save[4] && UserName.equals("ZYF")) {
                 this.setVisible(false);
                 new ChessGameFrame(UserName);
-                new WrongJFrame(4);
+                new WrongJFrame("错误编码104");
                 return;
             } else if (obj == save[i]) {
                 inUtil = new InUtil(file[i]);
                 if (!inUtil.judgeExist()) {
                     this.setVisible(false);
                     new ChessGameFrame(UserName);
-                    new WrongJFrame(12);
+                    new WrongJFrame("存档为空");
                 } else {
                     step = inUtil.getStep();
                     inUtil.readFile();
