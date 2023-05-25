@@ -494,7 +494,6 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         // background.setBounds(0, 0, 1000, 900);
         this.getContentPane().add(background);
     }
-
     //TODO：监听器
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -534,9 +533,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             }
             initChessGameImage();
         }
-
     }
-
     private void makeChoiceFrame() throws IOException {
         String[] options = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7", "Option 8", "Option 9"};
         JOptionPane optionPane = new JOptionPane();
