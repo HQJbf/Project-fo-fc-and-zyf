@@ -1,14 +1,8 @@
 package com.help.first;
 
-import com.sun.jdi.event.StepEvent;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ChessGameFrame extends JFrame implements KeyListener, MouseListener, ActionListener {
     String UserName;
@@ -36,13 +30,14 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     //创建一些按钮
     JButton restartButton = new JButton("重新游戏");
     JButton regretButton = new JButton("悔棋");
-    JButton cancelRegretButton = new JButton("取消悔棋");
+    JButton changeBackgroundButton = new JButton("取消悔棋");
 
     public ChessGameFrame(String UserName) {
         this.UserName = UserName;
         initZero();
         initChessGameJFrame();
         initChessGameJMenuBar();
+        initChessGameButton();
         initChessGameData();
         initChessGameImage();
         setVisible(true);
@@ -94,46 +89,32 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         initChessGameImage();
         setVisible(true);
     }
-    //TODO：按照step来改变data里面的元素
 
-    public int[][] changeData(String step1) {
-        count++;
-        if (step.length() != 0) {
-            if (step.charAt(step.length() - 127 - 127) == 'R') {
-                isRedTurn = true;
+    //TODO：按照step来改变data里面的元素
+    private int[][] changeData() {
+        if (isRedTurn) countBlue--;
+        else countRed--;
+        isRedTurn = !isRedTurn;
+        int row = 1;
+        int col = 1;
+        //再把每一个棋子塞到新的棋盘里
+        for (int i = step.length() - 126 - 127; i < step.length() - 127; i += 2) {
+            char c = step.charAt(i);
+            char d = step.charAt(i + 1);
+            if (c == 'R') data[col][row] = d - '0' + 10;
+            if (c == 'B') data[col][row] = d - '0';
+            if (c == 'n') data[col][row] = 0;
+            if (row == 9) {
+                col++;
+                row = 1;
             } else {
-                isRedTurn = false;
-            }
-            countBlue = 0;
-            countRed = 0;
-            //判断目前回合数
-            for (int i = 0; i < step.length() / 127; i++) {
-                if (i % 2 == 0) {
-                    countBlue++;
-                }
-                if (i % 2 == 1) {
-                    countRed++;
-                }
-            }
-            int row = 1;
-            int col = 1;
-            //再把每一个棋子塞到新的棋盘里
-            for (int i = step.length() - 126 - 127; i < step.length() - 127; i += 2) {
-                char c = step.charAt(i);
-                char d = step.charAt(i + 1);
-                if (c == 'R') data[col][row] = d - '0' + 10;
-                if (c == 'B') data[col][row] = d - '0';
-                if (c == 'n') data[col][row] = 0;
-                if (row == 9) {
-                    col++;
-                    row = 1;
-                } else {
-                    row++;
-                }
+                row++;
             }
         }
+        step = step.substring(0, step.length() - 127);
         return data;
     }
+
 
     //TODO：初始化界面
     private void initChessGameJFrame() {
@@ -191,11 +172,11 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         regretButton.setBorderPainted(false);
 
         ImageIcon cancelRegretIcon = new ImageIcon("image/FrameButton/切换背景(1).jpg");
-        cancelRegretButton.setIcon(cancelRegretIcon);
-        cancelRegretButton.setOpaque(false);
-        cancelRegretButton.setBorderPainted(false);
+        changeBackgroundButton.setIcon(cancelRegretIcon);
+        changeBackgroundButton.setOpaque(false);
+        changeBackgroundButton.setBorderPainted(false);
         //添加重新开始按键
-        restartButton.setLocation(600+50, 270);
+        restartButton.setLocation(600 + 50, 270);
         restartButton.setSize(220, 60);
         restartButton.setFont(new Font("黑体", Font.BOLD, 20));
         restartButton.setForeground(Color.white);
@@ -203,7 +184,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         restartButton.addActionListener(this);
         add(restartButton);
         //添加悔棋按键
-        regretButton.setLocation(600+50, 370);
+        regretButton.setLocation(600 + 50, 370);
         regretButton.setSize(220, 60);
         regretButton.setFont(new Font("黑体", Font.BOLD, 20));
         regretButton.setForeground(Color.white);
@@ -211,15 +192,31 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         regretButton.addActionListener(this);
         add(regretButton);
         //添加取消悔棋按键
-        cancelRegretButton.setLocation(600+50, 470);
-        cancelRegretButton.setSize(220, 60);
-        cancelRegretButton.setFont(new Font("黑体", Font.BOLD, 20));
-        cancelRegretButton.setForeground(Color.white);
-        cancelRegretButton.setContentAreaFilled(false);
-        cancelRegretButton.addActionListener(this);
-        add(cancelRegretButton);
+        changeBackgroundButton.setLocation(600 + 50, 470);
+        changeBackgroundButton.setSize(220, 60);
+        changeBackgroundButton.setFont(new Font("黑体", Font.BOLD, 20));
+        changeBackgroundButton.setForeground(Color.white);
+        changeBackgroundButton.setContentAreaFilled(false);
+        changeBackgroundButton.addActionListener(this);
+        add(changeBackgroundButton);
     }
-
+    //TODO：添加按钮，此方法在initimage里面调用
+    private void initChessGameButtonPosition() {
+        //添加重新开始按键
+        restartButton.setLocation(600, 270);
+        restartButton.setSize(220, 60);
+        restartButton.setFont(new Font("黑体", Font.BOLD, 20));
+        restartButton.setForeground(Color.white);
+        restartButton.setContentAreaFilled(false);
+        add(restartButton);
+        //添加悔棋按键
+        regretButton.setLocation(600, 370);
+        regretButton.setSize(220, 60);
+        regretButton.setFont(new Font("黑体", Font.BOLD, 20));
+        regretButton.setForeground(Color.white);
+        regretButton.setContentAreaFilled(false);
+        add(regretButton);
+    }
     //TODO：初始数据清零
     private void initZero() {
         step = "";
@@ -287,9 +284,10 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     private void initChessGameImage() {
         this.getContentPane().removeAll();//清空原本已经出现的所有图片
         initTurnAndStep();//添加回合和步数显示
+        initChessGameButtonPosition();//添加按键位置
         initChessPiece();//添加棋子
         initPositions();//添加兽穴和陷阱
-        initChessGameButton();
+       // initChessGameButton();
         initChessBoard();//添加棋盘
         initBackground();//添加背景
         this.getContentPane().repaint();//刷新一下界面
@@ -338,16 +336,17 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             setVisible(true);
 //            LoadJFrame loadFrame = new LoadJFrame(UserName);
 //            loadFrame.setVisible(true);
-           // while (loadFrame.isVisible()) {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-          //  }
+            // while (loadFrame.isVisible()) {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //  }
             count2++;
         }
     }
+
     //TODO:添加回合数和步数显示
     private void initTurnAndStep() {
         if (isRedTurn) {
@@ -485,23 +484,22 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             new LoadJFrame(UserName);
             setVisible(false);
         } else if (obj == recallItem) {
-         //   System.out.println(222);点击之后会打印，说明到这里都没有什么问题
-          recallGame();
+            //   System.out.println(222);点击之后会打印，说明到这里都没有什么问题
+            recallGame();
         } else if (obj == restartButton) {
             initZero();
             initChessGameData();
             initChessGameImage();
         } else if (obj == regretButton) {
-            if (step.length() == 127) {
+            if (step.length() <= 127) {
                 initZero();
                 initChessGameData();
                 initChessGameImage();
             } else {
-                // System.out.println(step);
-                changeData(step);
+                changeData();
                 initChessGameImage();
+                System.out.println(count);
             }
-
             //new RegretJFrame(UserName);
         }
     }
@@ -696,10 +694,9 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         }
         return false;
     }
+
     int preX = -1, preY = -1;
-
     //TODO：行棋逻辑和每走一步都存档
-
     @Override
     public void mouseClicked(MouseEvent e) {
         //这里obj指的是点击的东西
@@ -761,14 +758,9 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 preX = -1;
                 preY = -1;
             }
-        }else{
+        } else {
             new WinFrame(UserName);
         }
-//        if(obj==replay)
-//        {
-//
-//        }
-
     }
 
     @Override
