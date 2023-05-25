@@ -28,9 +28,9 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     String pathChessboard = "image/chessboard/chessboard.jpg";
     String pathBackground = "image/background/background1.jpg";
     //创建一些按钮
-    JButton restartButton = new JButton("重新游戏");
-    JButton regretButton = new JButton("悔棋");
-    JButton changeBackgroundButton = new JButton("取消悔棋");
+    JButton restartButton = new JButton();
+    JButton regretButton = new JButton();
+    JButton changeBackgroundButton = new JButton();
 
     public ChessGameFrame(String UserName) {
         this.UserName = UserName;
@@ -42,8 +42,6 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         initChessGameImage();
         setVisible(true);
     }
-
-    //TODO:读档
     public ChessGameFrame(String UserName, String step) {
         this.UserName = UserName;
         initZero();
@@ -89,7 +87,12 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         initChessGameImage();
         setVisible(true);
     }
+    //TODO:重载
+    public ChessGameFrame(String UerName,String pathBackground, String step,int tool){
+        this.UserName=UerName;
+        this.step=step;
 
+    }
     //TODO：按照step来改变data里面的元素
     private int[][] changeData() {
         if (isRedTurn) countBlue--;
@@ -114,12 +117,10 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         step = step.substring(0, step.length() - 127);
         return data;
     }
-
-
     //TODO：初始化界面
     private void initChessGameJFrame() {
         //设置宽高
-        setSize(1000, 750);
+        setSize(1000, 730);
         //设置标题
         setTitle("2023 CS109 Project by FC and ZYF");
         // 使得窗体居中
@@ -156,15 +157,13 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
 
     //TODO：添加按钮，此方法在initimage里面调用
     private void initChessGameButton() {
-//        ImageIcon chessboardIcon = new ImageIcon("image/chessboard/chessboard.jpg");
-//        JLabel chessboardLabel = new JLabel(chessboardIcon);
-//        chessboardLabel.setBounds(0, 0, 600, 600);
-//        add(chessboardLabel);
         //修改按钮背景为透明，并添加图片
         ImageIcon restartIcon = new ImageIcon("image/FrameButton/重新游戏(3).jpg");
         restartButton.setIcon(restartIcon);
         restartButton.setOpaque(false);
         restartButton.setBorderPainted(false);
+        restartButton.setHorizontalTextPosition(JButton.CENTER);
+        restartButton.setVerticalTextPosition(JButton.CENTER);
 
         ImageIcon regretIcon = new ImageIcon("image/FrameButton/悔棋(1).jpg");
         regretButton.setIcon(regretIcon);
@@ -177,7 +176,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         changeBackgroundButton.setBorderPainted(false);
         //添加重新开始按键
         restartButton.setLocation(600 + 50, 270);
-        restartButton.setSize(220, 60);
+        restartButton.setSize(200, 60);
         restartButton.setFont(new Font("黑体", Font.BOLD, 20));
         restartButton.setForeground(Color.white);
         restartButton.setContentAreaFilled(false);
@@ -185,7 +184,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         add(restartButton);
         //添加悔棋按键
         regretButton.setLocation(600 + 50, 370);
-        regretButton.setSize(220, 60);
+        regretButton.setSize(200, 60);
         regretButton.setFont(new Font("黑体", Font.BOLD, 20));
         regretButton.setForeground(Color.white);
         regretButton.setContentAreaFilled(false);
@@ -193,7 +192,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         add(regretButton);
         //添加取消悔棋按键
         changeBackgroundButton.setLocation(600 + 50, 470);
-        changeBackgroundButton.setSize(220, 60);
+        changeBackgroundButton.setSize(200, 60);
         changeBackgroundButton.setFont(new Font("黑体", Font.BOLD, 20));
         changeBackgroundButton.setForeground(Color.white);
         changeBackgroundButton.setContentAreaFilled(false);
@@ -204,21 +203,21 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     //TODO：添加按钮，此方法在initimage里面调用
     private void initChessGameButtonPosition() {
         //添加重新开始按键
-        restartButton.setLocation(600+50, 270);
-        restartButton.setSize(220, 60);
+        restartButton.setLocation(600 + 50, 270);
+        restartButton.setSize(200, 60);
         restartButton.setFont(new Font("黑体", Font.BOLD, 20));
         restartButton.setForeground(Color.white);
         restartButton.setContentAreaFilled(false);
         add(restartButton);
         //添加悔棋按键
-        regretButton.setLocation(600+50, 370);
-        regretButton.setSize(220, 60);
+        regretButton.setLocation(600 + 50, 370);
+        regretButton.setSize(200, 60);
         regretButton.setFont(new Font("黑体", Font.BOLD, 20));
         regretButton.setForeground(Color.white);
         regretButton.setContentAreaFilled(false);
         add(regretButton);
         changeBackgroundButton.setLocation(600 + 50, 470);
-        changeBackgroundButton.setSize(220, 60);
+        changeBackgroundButton.setSize(200, 60);
         changeBackgroundButton.setFont(new Font("黑体", Font.BOLD, 20));
         changeBackgroundButton.setForeground(Color.white);
         changeBackgroundButton.setContentAreaFilled(false);
@@ -235,6 +234,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         winFlag = false;
         isRedTurn = false;
     }
+
     //TODO：初始化动物、地面、兽穴和河流陷阱的数据
     private void initChessGameData() {
         for (int i = 1; i <= 7; i++) {
@@ -287,6 +287,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
     }
+
     //TODO：初始化图片
     private void initChessGameImage() {
         this.getContentPane().removeAll();//清空原本已经出现的所有图片
@@ -477,10 +478,14 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     //TODO:添加背景
     private void initBackground() {
         JLabel background = new JLabel(new ImageIcon(pathBackground));
-        background.setBounds(0, 0, 1000, 810);
+        //JLabel background = new JLabel(new ImageIcon(pathBackground));
+        int width = background.getIcon().getIconWidth();
+        int height = background.getIcon().getIconHeight();
+        background.setBounds(0, 0, width,height);
+       // this.getContentPane().add(background);
+       // background.setBounds(0, 0, 1000, 900);
         this.getContentPane().add(background);
     }
-
     //TODO：监听器
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -493,12 +498,11 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (obj == loadItem) {
             new LoadJFrame(UserName);
             setVisible(false);
-        } else if (obj == recallItem) {
-            recallGame();
-        } else if (obj == restartButton) {
-            if(winFlag){
+        }
+        else if (obj == restartButton) {
+            if (winFlag) {
                 new WinFrame(UserName);
-            }else{
+            } else {
                 initZero();
                 initChessGameData();
                 initChessGameImage();
@@ -514,12 +518,16 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 System.out.println(count);
             }
             //new RegretJFrame(UserName);
+        }else if(obj==changeBackgroundButton){
+            //new ChessGameFrame(UserName);
+           // String s1=
+            pathBackground="image/background/background4(1).jpg";
+            initChessGameImage();
         }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
