@@ -20,7 +20,7 @@ public class RegisterJFrame extends JFrame implements MouseListener {
     //重置按键
     ImageIcon resetUp = new ImageIcon("image/register/resetUp.png");
     ImageIcon resetDown = new ImageIcon("image/register/resetDown.png");
-    JLabel reset = new JLabel(resetUp);
+    JLabel cancel = new JLabel(resetUp);
     //输入框
     JTextField inputbox1 = new JTextField();
     JTextField inputbox2 = new JTextField();
@@ -79,9 +79,9 @@ public class RegisterJFrame extends JFrame implements MouseListener {
         register.addMouseListener(this);
         this.getContentPane().add(register);
         //添加重置按键
-        reset.setBounds(280, 280, 128, 47);
-        reset.addMouseListener(this);
-        this.getContentPane().add(reset);
+        cancel.setBounds(280, 280, 128, 47);
+        cancel.addMouseListener(this);
+        this.getContentPane().add(cancel);
         //添加背景图片
         JLabel background = new JLabel(new ImageIcon("image/register/background.png"));
         background.setBounds(0, 0, 470, 390);
@@ -127,10 +127,12 @@ public class RegisterJFrame extends JFrame implements MouseListener {
                 new LoginJFrame();
                 new RightJFrame(1, UserName);
             }
-        } else if (obj == reset) {
-            inputbox1.setText(null);
-            inputbox2.setText(null);
-            inputbox3.setText(null);
+        } else if (obj == cancel) {
+            setVisible(false);
+            new LoginJFrame();
+//            inputbox1.setText(null);
+//            inputbox2.setText(null);
+//            inputbox3.setText(null);
         }
     }
 
@@ -139,8 +141,8 @@ public class RegisterJFrame extends JFrame implements MouseListener {
         Object obj = e.getSource();
         if (obj == register) {
             register.setIcon(registerDown);
-        } else if (obj == reset) {
-            reset.setIcon(resetDown);
+        } else if (obj == cancel) {
+            cancel.setIcon(resetDown);
         }
     }
 
@@ -149,8 +151,8 @@ public class RegisterJFrame extends JFrame implements MouseListener {
         Object obj = e.getSource();
         if (obj == register) {
             register.setIcon(registerUp);
-        } else if (obj == reset) {
-            reset.setIcon(resetUp);
+        } else if (obj == cancel) {
+            cancel.setIcon(resetUp);
         }
     }
 

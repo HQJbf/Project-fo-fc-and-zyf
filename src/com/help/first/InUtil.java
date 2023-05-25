@@ -29,18 +29,6 @@ public class InUtil {
         }
         return true;
     }
-//    public boolean judgeExist() {
-//        Scanner sc;
-//        try {
-//            sc=new Scanner(file);
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//        step=sc.next();
-//       // System.out.println(step);
-//        if(step.length()==0)return false;
-//        return true;
-//    }
 
     public void readFile(){
         Scanner sc;
