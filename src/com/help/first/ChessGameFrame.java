@@ -1,8 +1,11 @@
 package com.help.first;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 public class ChessGameFrame extends JFrame implements KeyListener, MouseListener, ActionListener {
     String UserName;
@@ -42,6 +45,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         initChessGameImage();
         setVisible(true);
     }
+
     public ChessGameFrame(String UserName, String step) {
         this.UserName = UserName;
         initZero();
@@ -87,12 +91,14 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         initChessGameImage();
         setVisible(true);
     }
+
     //TODO:重载
-    public ChessGameFrame(String UerName,String pathBackground, String step,int tool){
-        this.UserName=UerName;
-        this.step=step;
+    public ChessGameFrame(String UerName, String pathBackground, String step, int tool) {
+        this.UserName = UerName;
+        this.step = step;
 
     }
+
     //TODO：按照step来改变data里面的元素
     private int[][] changeData() {
         if (isRedTurn) countBlue--;
@@ -117,6 +123,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         step = step.substring(0, step.length() - 127);
         return data;
     }
+
     //TODO：初始化界面
     private void initChessGameJFrame() {
         //设置宽高
@@ -190,7 +197,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         regretButton.setContentAreaFilled(false);
         regretButton.addActionListener(this);
         add(regretButton);
-        //添加取消悔棋按键
+        //添加切换背景按键
         changeBackgroundButton.setLocation(600 + 50, 470);
         changeBackgroundButton.setSize(200, 60);
         changeBackgroundButton.setFont(new Font("黑体", Font.BOLD, 20));
@@ -216,12 +223,13 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         regretButton.setForeground(Color.white);
         regretButton.setContentAreaFilled(false);
         add(regretButton);
+        //添加切换背景按钮
         changeBackgroundButton.setLocation(600 + 50, 470);
         changeBackgroundButton.setSize(200, 60);
         changeBackgroundButton.setFont(new Font("黑体", Font.BOLD, 20));
         changeBackgroundButton.setForeground(Color.white);
         changeBackgroundButton.setContentAreaFilled(false);
-        changeBackgroundButton.addActionListener(this);
+        // changeBackgroundButton.addActionListener(this);
         add(changeBackgroundButton);
     }
 
@@ -481,11 +489,12 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         //JLabel background = new JLabel(new ImageIcon(pathBackground));
         int width = background.getIcon().getIconWidth();
         int height = background.getIcon().getIconHeight();
-        background.setBounds(0, 0, width,height);
-       // this.getContentPane().add(background);
-       // background.setBounds(0, 0, 1000, 900);
+        background.setBounds(0, 0, width, height);
+        // this.getContentPane().add(background);
+        // background.setBounds(0, 0, 1000, 900);
         this.getContentPane().add(background);
     }
+
     //TODO：监听器
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -498,8 +507,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (obj == loadItem) {
             new LoadJFrame(UserName);
             setVisible(false);
-        }
-        else if (obj == restartButton) {
+        } else if (obj == restartButton) {
             if (winFlag) {
                 new WinFrame(UserName);
             } else {
@@ -518,13 +526,115 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 System.out.println(count);
             }
             //new RegretJFrame(UserName);
-        }else if(obj==changeBackgroundButton){
-            //new ChessGameFrame(UserName);
-           // String s1=
-            pathBackground="image/background/background4(1).jpg";
+        } else if (obj == changeBackgroundButton) {
+            try {
+                makeChoiceFrame();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             initChessGameImage();
         }
+
     }
+
+    private void makeChoiceFrame() throws IOException {
+        String[] options = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7", "Option 8", "Option 9"};
+        JOptionPane optionPane = new JOptionPane();
+        optionPane.setMessage("请选择你想要的背景");
+        optionPane.setMessageType(JOptionPane.PLAIN_MESSAGE);
+        optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
+        optionPane.setBackground(Color.WHITE);
+
+        Image image1 = ImageIO.read(new File("image/background/background1.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image2 = ImageIO.read(new File("image/background/background2.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image3 = ImageIO.read(new File("image/background/background3.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image4 = ImageIO.read(new File("image/background/background4.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image5 = ImageIO.read(new File("image/background/background5.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image6 = ImageIO.read(new File("image/background/background6.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+//        Image image7 = ImageIO.read(new File("image/background/background7.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+//        Image image8 = ImageIO.read(new File("image/background/background8.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+//        Image image9 = ImageIO.read(new File("image/background/background9.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+
+        JButton button1 = new JButton(new ImageIcon(image1));
+        button1.setToolTipText(options[0]);
+        button1.addActionListener(e -> optionPane.setValue(options[0]));
+        button1.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
+
+        JButton button2 = new JButton(new ImageIcon(image2));
+        button2.setToolTipText(options[1]);
+        button2.addActionListener(e -> optionPane.setValue(options[1]));
+        button2.setPreferredSize(new Dimension(image2.getWidth(null), image2.getHeight(null)));
+
+        JButton button3 = new JButton(new ImageIcon(image3));
+        button3.setToolTipText(options[2]);
+        button3.addActionListener(e -> optionPane.setValue(options[2]));
+        button3.setPreferredSize(new Dimension(image3.getWidth(null), image3.getHeight(null)));
+
+        JButton button4 = new JButton(new ImageIcon(image4));
+        button4.setToolTipText(options[3]);
+        button4.addActionListener(e -> optionPane.setValue(options[3]));
+        button4.setPreferredSize(new Dimension(image4.getWidth(null), image4.getHeight(null)));
+
+        JButton button5 = new JButton(new ImageIcon(image5));
+        button5.setToolTipText(options[4]);
+        button5.addActionListener(e -> optionPane.setValue(options[4]));
+        button5.setPreferredSize(new Dimension(image5.getWidth(null), image5.getHeight(null)));
+
+        JButton button6 = new JButton(new ImageIcon(image6));
+        button6.setToolTipText(options[5]);
+        button6.addActionListener(e -> optionPane.setValue(options[5]));
+        button6.setPreferredSize(new Dimension(image6.getWidth(null), image6.getHeight(null)));
+
+        JButton button7 = new JButton(new ImageIcon(image1));
+        button7.setToolTipText(options[6]);
+        button7.addActionListener(e -> optionPane.setValue(options[6]));
+        button7.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
+
+        JButton button8 = new JButton(new ImageIcon(image1));
+        button8.setToolTipText(options[7]);
+        button8.addActionListener(e -> optionPane.setValue(options[7]));
+        button8.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
+
+        JButton button9 = new JButton(new ImageIcon(image1));
+        button9.setToolTipText(options[8]);
+        button9.addActionListener(e -> optionPane.setValue(options[8]));
+        button9.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
+
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 3, 5, 5));
+        buttonPanel.add(button1);
+        buttonPanel.add(button2);
+        buttonPanel.add(button3);
+        buttonPanel.add(button4);
+        buttonPanel.add(button5);
+        buttonPanel.add(button6);
+        buttonPanel.add(button7);
+        buttonPanel.add(button8);
+        buttonPanel.add(button9);
+
+        JDialog dialog = optionPane.createDialog(null, "Custom Option Dialog");
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setContentPane(new JPanel(new BorderLayout()));
+        dialog.getContentPane().add(new JLabel(" "), BorderLayout.NORTH);
+        dialog.getContentPane().add(buttonPanel, BorderLayout.CENTER);
+        dialog.getContentPane().add(new JLabel(" "), BorderLayout.SOUTH);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        Object choice = optionPane.getValue();
+        int index = -1;
+        for (int i = 0; i < options.length; i++) {
+            if (options[i].equals(choice)) {
+                index = i;
+                break;
+            }
+        }
+        if (index != -1) {
+            int u=index+1;
+            pathBackground = "image/background/background" + u + ".jpg";
+        }
+    }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
