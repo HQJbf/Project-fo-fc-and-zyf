@@ -41,6 +41,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         initChessGameData();
         initChessGameImage();
         setVisible(true);
+
     }
 
     //TODO:读档
@@ -134,6 +135,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         this.addKeyListener(this);
         //给整个界面添加鼠标监听事件
         this.addMouseListener(this);
+
     }
 
     //TODO：初始化菜单
@@ -496,7 +498,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         } else if (obj == recallItem) {
             recallGame();
         } else if (obj == restartButton) {
-            if(winFlag){
+            if(winFlag||movewin()==true){
                 new WinFrame(UserName);
             }else{
                 initZero();
@@ -720,7 +722,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         int y = e.getY();
         y = (y - 80) / 65 + 1;
         //如果胜利就点击就失效
-        if (!winFlag) {
+        if ((!winFlag)&&(!movewin())) {
             if (preX == -1 && preY == -1) {
                 if ((isRedTurn && data[x][y] > 10) || ((!isRedTurn) && data[x][y] < 10)) {
                     if (data[x][y] != 0) {
@@ -777,6 +779,25 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         }
     }
 
+     public boolean  movewin(){
+       int blue=0;int white=0;
+        for (int i=1;i<=7;i++){
+            for(int j=1;j<=9;j++){
+                if (data[i][j]<10&&data[i][j]>0) {
+                    blue++;
+                }
+                if (data[i][j]>10){
+                    white++;
+                }
+            }
+        }
+        if (blue==0||white==0){
+            return true;
+        }
+        else {
+            return false;
+        }
+     }
     @Override
     public void mousePressed(MouseEvent e) {
 

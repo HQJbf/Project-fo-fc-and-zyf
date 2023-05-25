@@ -57,6 +57,7 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
         login.addMouseListener(this);
         inputbox3.addKeyListener(this);
         setVisible(true);
+
     }
 
     //初始化界面
