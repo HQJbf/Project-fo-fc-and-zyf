@@ -494,6 +494,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         // background.setBounds(0, 0, 1000, 900);
         this.getContentPane().add(background);
     }
+
     //TODO：监听器
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -507,8 +508,8 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             new LoadJFrame(UserName);
             setVisible(false);
         } else if (obj == restartButton) {
-            if (winFlag) {
-                new WinFrame(UserName);
+            if (winFlag || movewin()) {
+                new WinFrame(UserName, step);
             } else {
                 initZero();
                 initChessGameData();
@@ -534,6 +535,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             initChessGameImage();
         }
     }
+
     private void makeChoiceFrame() throws IOException {
         String[] options = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7", "Option 8", "Option 9"};
         JOptionPane optionPane = new JOptionPane();
@@ -627,7 +629,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
         if (index != -1) {
-            int u=index+1;
+            int u = index + 1;
             pathBackground = "image/background/background" + u + ".jpg";
         }
     }
@@ -835,7 +837,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         int y = e.getY();
         y = (y - 80) / 65 + 1;
         //如果胜利就点击就失效
-        if (!winFlag) {
+        if ((!winFlag) && (!movewin())) {
             if (preX == -1 && preY == -1) {
                 if ((isRedTurn && data[x][y] > 10) || ((!isRedTurn) && data[x][y] < 10)) {
                     if (data[x][y] != 0) {
@@ -888,7 +890,27 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 preY = -1;
             }
         } else {
-            new WinFrame(UserName);
+            new WinFrame(UserName, step);
+        }
+    }
+
+    public boolean movewin() {
+        int blue = 0;
+        int white = 0;
+        for (int i = 1; i <= 7; i++) {
+            for (int j = 1; j <= 9; j++) {
+                if (data[i][j] < 10 && data[i][j] > 0) {
+                    blue++;
+                }
+                if (data[i][j] > 10) {
+                    white++;
+                }
+            }
+        }
+        if (blue == 0 || white == 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

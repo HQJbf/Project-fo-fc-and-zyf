@@ -5,9 +5,11 @@ import java.awt.*;
 
 public class WinFrame extends JFrame {
     String Username;
+    String step;
     String condition = "";
-    public WinFrame(String username) {
+    public WinFrame(String username,String step) {
         this.Username = username;
+        this.step=step;
         initJFrame();
         initJLabel();
         setVisible(true);
@@ -35,6 +37,11 @@ public class WinFrame extends JFrame {
         this.getContentPane().add(jLabel2);
         JLabel jLabel = new JLabel("本届游戏已经结束");
         jLabel.setBounds(50, 50, 150, 30);
+        jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
+        this.getContentPane().add(jLabel);
+        // if(step.charAt())
+        jLabel = new JLabel("方获得胜利");
+        jLabel.setBounds(50, 80, 160, 30);
         jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
         this.getContentPane().add(jLabel);
         jLabel = new JLabel("请重新开始游戏！");
