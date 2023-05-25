@@ -10,12 +10,11 @@ public class RightJFrame extends JFrame {
         this.Username=username;
         initJFrame();
         initText(mark);
-        //setVisible(true);
     }
     //初始化界面
     private void initJFrame() {
         //设置宽高
-        this.setSize(250, 200);
+        this.setSize(240, 210);
         //设置标题
         this.setTitle("成功登录");
         //设置置顶
@@ -42,11 +41,6 @@ public class RightJFrame extends JFrame {
                 this.getContentPane().add(jLabel);
             }else {
                 JOptionPane.showMessageDialog(this, "登录成功！欢迎"+Username);
-//                jLabel = new JLabel("登录成功！");
-//                JOptionPane.showMessageDialog(this, "游戏已保存");
-//                jLabel.setBounds(85, 60, 150, 30);
-//                jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
-//                this.getContentPane().add(jLabel);
             }
         }
 }

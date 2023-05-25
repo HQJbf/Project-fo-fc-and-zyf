@@ -130,9 +130,6 @@ public class RegisterJFrame extends JFrame implements MouseListener {
         } else if (obj == cancel) {
             setVisible(false);
             new LoginJFrame();
-//            inputbox1.setText(null);
-//            inputbox2.setText(null);
-//            inputbox3.setText(null);
         }
     }
 

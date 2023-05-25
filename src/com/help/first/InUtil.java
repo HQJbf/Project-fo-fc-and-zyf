@@ -24,7 +24,7 @@ public class InUtil {
             return false;
         }
         step = sc.next();
-        if (step.length() == 0) {
+        if (step.length() == 0||step.equals("false")||step.equals("null")) {
             return false;
         }
         return true;
