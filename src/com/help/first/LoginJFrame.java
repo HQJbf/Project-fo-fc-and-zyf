@@ -23,11 +23,11 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
     JLabel login = new JLabel(loginUp);
     //TODO：注册按键up
     ImageIcon registerUp = new ImageIcon("image/login/registerUp(1).jpg");
-    Image img2 = registerUp.getImage();
-    int width2 = registerUp.getIconWidth() / 2; // 缩小为原来的一半
-    int height2 = registerUp.getIconHeight() / 2;
-    Image scaledImg2 = img2.getScaledInstance(width2, height2, Image.SCALE_SMOOTH);
-    ImageIcon registerUp2 = new ImageIcon(scaledImg2);
+//    Image img2 = registerUp.getImage();
+//    int width2 = registerUp.getIconWidth() / 2; // 缩小为原来的一半
+//    int height2 = registerUp.getIconHeight() / 2;
+//    Image scaledImg2 = img2.getScaledInstance(width2, height2, Image.SCALE_SMOOTH);
+//    ImageIcon registerUp2 = new ImageIcon(scaledImg2);
     //TODO：注册按键down
     ImageIcon registerDown = new ImageIcon("image/login/registerUp(1).jpg");
     //    Image img1 = registerDown.getImage();
@@ -239,7 +239,7 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
         if (obj == login) {
             login.setIcon(loginUp);
         } else if (obj == register) {
-            register.setIcon(registerUp2);
+            register.setIcon(registerUp);
             this.getContentPane().add(register);
         }
     }

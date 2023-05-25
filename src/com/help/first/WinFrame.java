@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class WinFrame extends JFrame {
     String Username;
-String condition="";
+    String condition = "";
     public WinFrame(String username) {
         this.Username = username;
         initJFrame();
@@ -29,7 +29,7 @@ String condition="";
     }
 
     private void initJLabel() {
-        JLabel jLabel2 = new JLabel("亲爱的"+Username);
+        JLabel jLabel2 = new JLabel("亲爱的" + Username);
         jLabel2.setBounds(50, 20, 150, 30);
         jLabel2.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
         this.getContentPane().add(jLabel2);
