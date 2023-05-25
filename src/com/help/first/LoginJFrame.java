@@ -30,7 +30,7 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
     ImageIcon registerUp2 = new ImageIcon(scaledImg2);
     //TODO：注册按键down
     ImageIcon registerDown = new ImageIcon("image/login/registerUp(1).jpg");
-//    Image img1 = registerDown.getImage();
+    //    Image img1 = registerDown.getImage();
 //    int width1 = registerDown.getIconWidth() / 2; // 缩小为原来的一半
 //    int height1 = registerDown.getIconHeight() / 2;
 //    Image scaledImg1 = img1.getScaledInstance(width1, height1, Image.SCALE_SMOOTH);
@@ -46,17 +46,19 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
     JTextField inputbox1 = new JTextField();
     JTextField inputbox2 = showFalse;
     JTextField inputbox3 = new JTextField();
+
     //登录界面
     public LoginJFrame() {
         randomCode = produceRandom();
         initJFrame();
         initImage();
+        register.addMouseListener(this);
         code.addMouseListener(this);
         login.addMouseListener(this);
-        register.addMouseListener(this);
         inputbox3.addKeyListener(this);
         setVisible(true);
     }
+
     //初始化界面
     private void initJFrame() {
         //设置标题
@@ -66,7 +68,7 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
         //设置宽高
         this.setSize(650, 520);
         //设置置顶
-       // this.setAlwaysOnTop(true);
+        // this.setAlwaysOnTop(true);
         //设置居中
         this.setLocationRelativeTo(null);
         //设置默认关闭模式
@@ -74,6 +76,7 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
         //取消默认的组件居中方式
         this.setLayout(null);
     }
+
     //初始化图片
     private void initImage() {
         this.getContentPane().removeAll();//清空原本已经出现的所有图片
@@ -209,6 +212,7 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
             theKey = isShowPassword ? showTrue.getText() : showFalse.getText();
             verification = inputbox3.getText();
             if (!judge(UserName, theKey, verification)) {
+                System.out.println(mark);
                 new WrongJFrame(mark);
             } else {
                 this.setVisible(false);
@@ -220,7 +224,6 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
             new RegisterJFrame();
         }
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
         Object obj = e.getSource();
@@ -230,15 +233,14 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
             register.setIcon(registerDown);
         }
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
         Object obj = e.getSource();
-
         if (obj == login) {
             login.setIcon(loginUp);
         } else if (obj == register) {
             register.setIcon(registerUp2);
+            this.getContentPane().add(register);
         }
     }
 
@@ -258,10 +260,10 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int code=e.getKeyCode();
-        String v=inputbox3.getText();
-        if(v.length()==4){
-            if (code==10){
+        int code = e.getKeyCode();
+        String v = inputbox3.getText();
+        if (v.length() == 4) {
+            if (code == 10) {
                 UserName = inputbox1.getText();
                 theKey = isShowPassword ? showTrue.getText() : showFalse.getText();
                 verification = inputbox3.getText();

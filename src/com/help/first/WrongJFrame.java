@@ -56,12 +56,12 @@ public class WrongJFrame extends JFrame {
             jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
             this.getContentPane().add(jLabel);
         }
-        if (mark == 5) {
-            jLabel = new JLabel("错误编码:105");
-            jLabel.setBounds(75, 60, 150, 30);
-            jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
-            this.getContentPane().add(jLabel);
-        }
+//        if (mark == 5) {
+//            jLabel = new JLabel("错误编码:105");
+//            jLabel.setBounds(75, 60, 150, 30);
+//            jLabel.setFont(new Font("宋体", Font.CENTER_BASELINE, 15));
+//            this.getContentPane().add(jLabel);
+//        }
         if (mark == 6) {
             jLabel = new JLabel("输入为空！");
             jLabel.setBounds(85, 60, 150, 30);

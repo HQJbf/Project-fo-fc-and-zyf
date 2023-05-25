@@ -16,14 +16,31 @@ public class InUtil {
     public boolean judgeExist() {
         Scanner sc;
         try {
-            sc=new Scanner(file);
+            sc = new Scanner(file);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        step=sc.next();
-        if(step.length()==0)return false;
+        if (!sc.hasNext()) { // 如果文件为空，直接返回 false
+            return false;
+        }
+        step = sc.next();
+        if (step.length() == 0) {
+            return false;
+        }
         return true;
     }
+//    public boolean judgeExist() {
+//        Scanner sc;
+//        try {
+//            sc=new Scanner(file);
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        step=sc.next();
+//       // System.out.println(step);
+//        if(step.length()==0)return false;
+//        return true;
+//    }
 
     public void readFile(){
         Scanner sc;
