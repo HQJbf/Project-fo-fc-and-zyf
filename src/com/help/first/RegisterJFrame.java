@@ -18,8 +18,8 @@ public class RegisterJFrame extends JFrame implements MouseListener {
     ImageIcon registerDown = new ImageIcon("image/register/registerUp(1).jpg");
     JLabel register = new JLabel(registerUp);
     //重置按键
-    ImageIcon resetUp = new ImageIcon("image/register/resetUp.png");
-    ImageIcon resetDown = new ImageIcon("image/register/resetDown.png");
+    ImageIcon resetUp = new ImageIcon("image/register/取消按钮(1).jpg");
+    ImageIcon resetDown = new ImageIcon("image/register/取消按钮(2).jpg");
     JLabel cancel = new JLabel(resetUp);
     //输入框
     JTextField inputbox1 = new JTextField();

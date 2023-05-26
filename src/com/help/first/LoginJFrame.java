@@ -1,10 +1,15 @@
 package com.help.first;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -23,7 +28,7 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
     JLabel login = new JLabel(loginUp);
     //TODO：注册按键up
     ImageIcon registerUp = new ImageIcon("image/login/registerUp(1).jpg");
-//    Image img2 = registerUp.getImage();
+    //    Image img2 = registerUp.getImage();
 //    int width2 = registerUp.getIconWidth() / 2; // 缩小为原来的一半
 //    int height2 = registerUp.getIconHeight() / 2;
 //    Image scaledImg2 = img2.getScaledInstance(width2, height2, Image.SCALE_SMOOTH);
@@ -46,7 +51,8 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
     JTextField inputbox1 = new JTextField();
     JTextField inputbox2 = showFalse;
     JTextField inputbox3 = new JTextField();
-
+    private static boolean isPlaying = false; // 静态标志位，表示当前是否正在播放音乐
+    private static Clip clip; // 成员变量，表示音乐播放器
     //登录界面
     public LoginJFrame() {
         randomCode = produceRandom();
@@ -56,8 +62,48 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
         code.addMouseListener(this);
         login.addMouseListener(this);
         inputbox3.addKeyListener(this);
+        playMusic();
         setVisible(true);
+    }
 
+    private void playMusic() {
+        try {
+            File musicPath = new File("C:\\Users\\86151\\Desktop\\Jungle\\music\\0520.wav");
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+            clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(0.0f); // 设置音量，范围为 -60.0f 到 6.0f
+            clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            isPlaying = true; // 设为true，表示正在播放音乐
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+//    @Override
+//    public void setVisible(boolean b) {
+//        super.setVisible(b);
+//        if (!b) { // 窗口被隐藏
+//            if (isPlaying) {
+//                clip.stop(); // 暂停音乐
+//            }
+//        }
+//    }
+
+    public static void pauseMusic() { // 静态方法，暂停音乐
+        if (isPlaying) {
+            clip.stop();
+            isPlaying = false;
+        }
+    }
+
+    public static void resumeMusic() { // 静态方法，继续播放音乐
+        if (!isPlaying) {
+            clip.start();
+            isPlaying = true;
+        }
     }
 
     //初始化界面
@@ -164,11 +210,11 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
         File directory = new File("User\\" + userName);
         File file = new File(directory, userName + ".txt");
         if (userName.equals("") || password.equals("") || verification.equals("")) {
-            condition="输入为空";
+            condition = "输入为空";
             return false;
         }
         if (!directory.exists()) {
-            condition="用户不存在";
+            condition = "用户不存在";
             return false;
         }
         Scanner sc;
@@ -180,11 +226,11 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
         String truePassword;
         truePassword = sc.next();
         if (!truePassword.equals(password)) {
-            condition="密码不正确";
+            condition = "密码不正确";
             return false;
         }
         if (!this.randomCode.equals(verification)) {
-            condition="验证码不正确";
+            condition = "验证码不正确";
             return false;
         }
         return true;
@@ -225,6 +271,7 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
             new RegisterJFrame();
         }
     }
+
     @Override
     public void mousePressed(MouseEvent e) {
         Object obj = e.getSource();
@@ -234,6 +281,7 @@ public class LoginJFrame extends JFrame implements MouseListener, KeyListener, A
             register.setIcon(registerDown);
         }
     }
+
     @Override
     public void mouseReleased(MouseEvent e) {
         Object obj = e.getSource();

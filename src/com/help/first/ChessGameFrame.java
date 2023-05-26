@@ -27,13 +27,17 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
     JMenuItem reloginItem = new JMenuItem("重新登录");
     JMenuItem saveItem = new JMenuItem("保存游戏");
     JMenuItem loadItem = new JMenuItem("加载游戏");
-    JMenuItem recallItem = new JMenuItem("复盘游戏");
+    JMenuItem changeChessboard = new JMenuItem("切换棋盘");
     String pathChessboard = "image/chessboard/chessboard.jpg";
     String pathBackground = "image/background/background1.jpg";
     //创建一些按钮
     JButton restartButton = new JButton();
     JButton regretButton = new JButton();
     JButton changeBackgroundButton = new JButton();
+    ImageIcon musicUp = new ImageIcon("image/music/11.jpg");
+    ImageIcon musicDown = new ImageIcon("image/music/22.jpg");
+    JLabel changeMusic = new JLabel(musicUp);
+    boolean isMusicUp = false;
 
     public ChessGameFrame(String UserName) {
         this.UserName = UserName;
@@ -46,6 +50,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         setVisible(true);
     }
 
+    //TODO：读档
     public ChessGameFrame(String UserName, String step) {
         this.UserName = UserName;
         initZero();
@@ -88,16 +93,11 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             }
         }
         // oldFrame.setVisible(false); // 隐藏原来的窗体
+        initChessGameButton();
         initChessGameImage();
         setVisible(true);
     }
 
-    //TODO:重载
-    public ChessGameFrame(String UerName, String pathBackground, String step, int tool) {
-        this.UserName = UerName;
-        this.step = step;
-
-    }
 
     //TODO：按照step来改变data里面的元素
     private int[][] changeData() {
@@ -150,14 +150,14 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         functionJmenu.add(reloginItem);
         functionJmenu.add(saveItem);
         functionJmenu.add(loadItem);
-        functionJmenu.add(recallItem);
+        functionJmenu.add(changeChessboard);
         //将选项添加到菜单当中
         jMenuBar.add(functionJmenu);
         //给条目绑定事件
         reloginItem.addActionListener(this);
         saveItem.addActionListener(this);
         loadItem.addActionListener(this);
-        recallItem.addActionListener(this);
+        changeChessboard.addActionListener(this);
         //给游戏界面设置菜单
         this.setJMenuBar(jMenuBar);
     }
@@ -303,65 +303,22 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         initChessGameButtonPosition();//添加按键位置
         initChessPiece();//添加棋子
         initPositions();//添加兽穴和陷阱
+        //initMusicButton();//添加音乐控制按钮
         // initChessGameButton();
         initChessBoard();//添加棋盘
         initBackground();//添加背景
         this.getContentPane().repaint();//刷新一下界面
     }
 
-    //TODO：游戏复盘
-    public void recallGame() {
-        int count1 = step.length() / 127;
-        int count2 = 1;
-        for (int i = 0; i < count1; i++) {
-            if (step.length() != 0) {
-                if (step.charAt(127 * count2) == 'R') {
-                    isRedTurn = true;
-                } else {
-                    isRedTurn = false;
-                }
-                countBlue = 0;
-                countRed = 0;
-//判断目前回合数
-                for (int j = 0; j < count2; j++) {
-                    if (j % 2 == 0) {
-                        countBlue++;
-                    }
-                    if (j % 2 == 1) {
-                        countRed++;
-                    }
-                }
-                int row = 1;
-                int col = 1;
-//再把每一个棋子塞到新的棋盘里
-                for (int j = count2 * 127 + 1; j < count2 * 127 + 127; j += 2) {
-                    char c = step.charAt(i);
-                    char d = step.charAt(i + 1);
-                    if (c == 'R') data[col][row] = d - '0' + 10;
-                    if (c == 'B') data[col][row] = d - '0';
-                    if (c == 'n') data[col][row] = 0;
-                    if (row == 9) {
-                        col++;
-                        row = 1;
-                    } else {
-                        row++;
-                    }
-                }
-            }
-            initChessBoard();
-            setVisible(true);
-//            LoadJFrame loadFrame = new LoadJFrame(UserName);
-//            loadFrame.setVisible(true);
-            // while (loadFrame.isVisible()) {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //  }
-            count2++;
-        }
+    //TODO:添加音乐按钮
+    private void initMusicButton() {
+        if (!isMusicUp) changeMusic = new JLabel(musicUp);
+        else changeMusic = new JLabel(musicDown);
+        changeMusic.setBounds(650, 600, 50, 50);
+        changeMusic.addMouseListener(this);
+        this.getContentPane().add(changeMusic);
     }
+
 
     //TODO:添加回合数和步数显示
     private void initTurnAndStep() {
@@ -369,22 +326,22 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             JLabel turn = new JLabel("当前回合：红方");
             turn.setFont(new Font("微软雅黑", Font.BOLD, 25));
             turn.setForeground(Color.white);
-            turn.setBounds(600, 10, 250, 40);
+            turn.setBounds(650, 25, 250, 40);
             this.getContentPane().add(turn);
         } else {
             JLabel turn = new JLabel("当前回合：蓝方");
             turn.setFont(new Font("微软雅黑", Font.BOLD, 25));
             turn.setForeground(Color.white);
-            turn.setBounds(600, 10, 250, 40);
+            turn.setBounds(650, 25, 250, 40);
             this.getContentPane().add(turn);
         }
         JLabel stepCount1 = new JLabel("蓝方步数：" + countBlue);
-        stepCount1.setBounds(600, 60, 250, 40);
+        stepCount1.setBounds(650, 85, 250, 40);
         stepCount1.setFont(new Font("微软雅黑", Font.BOLD, 25));
         stepCount1.setForeground(Color.white);
         this.getContentPane().add(stepCount1);
         JLabel stepCount2 = new JLabel("红方步数：" + countRed);
-        stepCount2.setBounds(600, 100, 250, 40);
+        stepCount2.setBounds(650, 145, 250, 40);
         stepCount2.setFont(new Font("微软雅黑", Font.BOLD, 25));
         stepCount2.setForeground(Color.white);
         this.getContentPane().add(stepCount2);
@@ -508,14 +465,12 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             new LoadJFrame(UserName);
             setVisible(false);
         } else if (obj == restartButton) {
-            if (winFlag || movewin()) {
-                new WinFrame(UserName, step);
-            } else {
-                initZero();
-                initChessGameData();
-                initChessGameImage();
-            }
+            initZero();
+            initChessGameData();
+            initChessGameImage();
+            //   }
         } else if (obj == regretButton) {
+            winFlag = false;
             if (step.length() <= 127) {
                 initZero();
                 initChessGameData();
@@ -523,9 +478,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             } else {
                 changeData();
                 initChessGameImage();
-                System.out.println(count);
             }
-            //new RegretJFrame(UserName);
         } else if (obj == changeBackgroundButton) {
             try {
                 makeChoiceFrame();
@@ -533,406 +486,423 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 throw new RuntimeException(ex);
             }
             initChessGameImage();
-        }
-    }
-
-    private void makeChoiceFrame() throws IOException {
-        String[] options = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7", "Option 8", "Option 9"};
-        JOptionPane optionPane = new JOptionPane();
-        optionPane.setMessage("请选择你想要的背景");
-        optionPane.setMessageType(JOptionPane.PLAIN_MESSAGE);
-        optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
-        optionPane.setBackground(Color.WHITE);
-
-        Image image1 = ImageIO.read(new File("image/background/background1.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-        Image image2 = ImageIO.read(new File("image/background/background2.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-        Image image3 = ImageIO.read(new File("image/background/background3.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-        Image image4 = ImageIO.read(new File("image/background/background4.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-        Image image5 = ImageIO.read(new File("image/background/background5.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-        Image image6 = ImageIO.read(new File("image/background/background6.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-//        Image image7 = ImageIO.read(new File("image/background/background7.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-//        Image image8 = ImageIO.read(new File("image/background/background8.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-//        Image image9 = ImageIO.read(new File("image/background/background9.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-
-        JButton button1 = new JButton(new ImageIcon(image1));
-        button1.setToolTipText(options[0]);
-        button1.addActionListener(e -> optionPane.setValue(options[0]));
-        button1.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
-
-        JButton button2 = new JButton(new ImageIcon(image2));
-        button2.setToolTipText(options[1]);
-        button2.addActionListener(e -> optionPane.setValue(options[1]));
-        button2.setPreferredSize(new Dimension(image2.getWidth(null), image2.getHeight(null)));
-
-        JButton button3 = new JButton(new ImageIcon(image3));
-        button3.setToolTipText(options[2]);
-        button3.addActionListener(e -> optionPane.setValue(options[2]));
-        button3.setPreferredSize(new Dimension(image3.getWidth(null), image3.getHeight(null)));
-
-        JButton button4 = new JButton(new ImageIcon(image4));
-        button4.setToolTipText(options[3]);
-        button4.addActionListener(e -> optionPane.setValue(options[3]));
-        button4.setPreferredSize(new Dimension(image4.getWidth(null), image4.getHeight(null)));
-
-        JButton button5 = new JButton(new ImageIcon(image5));
-        button5.setToolTipText(options[4]);
-        button5.addActionListener(e -> optionPane.setValue(options[4]));
-        button5.setPreferredSize(new Dimension(image5.getWidth(null), image5.getHeight(null)));
-
-        JButton button6 = new JButton(new ImageIcon(image6));
-        button6.setToolTipText(options[5]);
-        button6.addActionListener(e -> optionPane.setValue(options[5]));
-        button6.setPreferredSize(new Dimension(image6.getWidth(null), image6.getHeight(null)));
-
-        JButton button7 = new JButton(new ImageIcon(image1));
-        button7.setToolTipText(options[6]);
-        button7.addActionListener(e -> optionPane.setValue(options[6]));
-        button7.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
-
-        JButton button8 = new JButton(new ImageIcon(image1));
-        button8.setToolTipText(options[7]);
-        button8.addActionListener(e -> optionPane.setValue(options[7]));
-        button8.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
-
-        JButton button9 = new JButton(new ImageIcon(image1));
-        button9.setToolTipText(options[8]);
-        button9.addActionListener(e -> optionPane.setValue(options[8]));
-        button9.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
-
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 3, 5, 5));
-        buttonPanel.add(button1);
-        buttonPanel.add(button2);
-        buttonPanel.add(button3);
-        buttonPanel.add(button4);
-        buttonPanel.add(button5);
-        buttonPanel.add(button6);
-        buttonPanel.add(button7);
-        buttonPanel.add(button8);
-        buttonPanel.add(button9);
-
-        JDialog dialog = optionPane.createDialog(null, "Custom Option Dialog");
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.setContentPane(new JPanel(new BorderLayout()));
-        dialog.getContentPane().add(new JLabel(" "), BorderLayout.NORTH);
-        dialog.getContentPane().add(buttonPanel, BorderLayout.CENTER);
-        dialog.getContentPane().add(new JLabel(" "), BorderLayout.SOUTH);
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
-
-        Object choice = optionPane.getValue();
-        int index = -1;
-        for (int i = 0; i < options.length; i++) {
-            if (options[i].equals(choice)) {
-                index = i;
-                break;
+        } else if (obj == changeMusic) {
+            if (!isMusicUp) {
+                LoginJFrame.pauseMusic();// 调用LoginJFrame类的静态方法，暂停音乐
+                initChessGameImage();
+            } else {
+                LoginJFrame.resumeMusic(); // 调用LoginJFrame类的静态方法，继续播放音乐
+                initChessGameImage();
+            }
+        }else if(obj==changeChessboard){
+            if(pathChessboard.equals("image/chessboard/chessboard.jpg")){
+                pathChessboard="image/chessboard/chessboard2.jpg";
+                initChessGameImage();
+            } else {
+                pathChessboard="image/chessboard/chessboard.jpg";
+                initChessGameImage();
             }
         }
-        if (index != -1) {
-            int u = index + 1;
-            pathBackground = "image/background/background" + u + ".jpg";
-        }
     }
+        //TODO：选择可以切换的背景图片
+        private void makeChoiceFrame () throws IOException {
+            String[] options = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7", "Option 8", "Option 9"};
+            JOptionPane optionPane = new JOptionPane();
+            optionPane.setMessage("请选择你想要的背景");
+            optionPane.setMessageType(JOptionPane.PLAIN_MESSAGE);
+            optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
+            optionPane.setBackground(Color.WHITE);
 
+            Image image1 = ImageIO.read(new File("image/background/background1.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image image2 = ImageIO.read(new File("image/background/background2.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image image3 = ImageIO.read(new File("image/background/background3.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image image4 = ImageIO.read(new File("image/background/background4.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image image5 = ImageIO.read(new File("image/background/background5.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image image6 = ImageIO.read(new File("image/background/background6.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image image7 = ImageIO.read(new File("image/background/background7.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image image8 = ImageIO.read(new File("image/background/background8.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image image9 = ImageIO.read(new File("image/background/background9.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
+            JButton button1 = new JButton(new ImageIcon(image1));
+            button1.setToolTipText(options[0]);
+            button1.addActionListener(e -> optionPane.setValue(options[0]));
+            button1.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
 
-    @Override
-    public void keyPressed(KeyEvent e) {
+            JButton button2 = new JButton(new ImageIcon(image2));
+            button2.setToolTipText(options[1]);
+            button2.addActionListener(e -> optionPane.setValue(options[1]));
+            button2.setPreferredSize(new Dimension(image2.getWidth(null), image2.getHeight(null)));
 
-    }
+            JButton button3 = new JButton(new ImageIcon(image3));
+            button3.setToolTipText(options[2]);
+            button3.addActionListener(e -> optionPane.setValue(options[2]));
+            button3.setPreferredSize(new Dimension(image3.getWidth(null), image3.getHeight(null)));
 
-    @Override
-    public void keyReleased(KeyEvent e) {
+            JButton button4 = new JButton(new ImageIcon(image4));
+            button4.setToolTipText(options[3]);
+            button4.addActionListener(e -> optionPane.setValue(options[3]));
+            button4.setPreferredSize(new Dimension(image4.getWidth(null), image4.getHeight(null)));
 
-    }
+            JButton button5 = new JButton(new ImageIcon(image5));
+            button5.setToolTipText(options[4]);
+            button5.addActionListener(e -> optionPane.setValue(options[4]));
+            button5.setPreferredSize(new Dimension(image5.getWidth(null), image5.getHeight(null)));
 
-    //TODO:canMove方法判断是否能移动
-    private boolean canMove(int preX, int preY, int x, int y, int k) {
-        if (x < 1 || x > 7 || y < 1 || y > 9) return false;
-        if (k == 1 || k == 11) {
-            if (pos[x][y] == 1 || pos[x][y] == 3 || pos[x][y] == 4 || pos[x][y] == 5) {
-                if (preX == x && Math.abs(preY - y) == 1) return true;
-                if (preY == y && Math.abs(preX - x) == 1) return true;
-                return false;
-            } else if (pos[x][y] == 2) {
-                if (k < 10) return false;
-                if (preX == x && Math.abs(preY - y) == 1) {
-                    winFlag = true;
-                    return true;
+            JButton button6 = new JButton(new ImageIcon(image6));
+            button6.setToolTipText(options[5]);
+            button6.addActionListener(e -> optionPane.setValue(options[5]));
+            button6.setPreferredSize(new Dimension(image6.getWidth(null), image6.getHeight(null)));
+
+            JButton button7 = new JButton(new ImageIcon(image7));
+            button7.setToolTipText(options[6]);
+            button7.addActionListener(e -> optionPane.setValue(options[6]));
+            button7.setPreferredSize(new Dimension(image7.getWidth(null), image7.getHeight(null)));
+
+            JButton button8 = new JButton(new ImageIcon(image8));
+            button8.setToolTipText(options[7]);
+            button8.addActionListener(e -> optionPane.setValue(options[7]));
+            button8.setPreferredSize(new Dimension(image8.getWidth(null), image8.getHeight(null)));
+
+            JButton button9 = new JButton(new ImageIcon(image9));
+            button9.setToolTipText(options[8]);
+            button9.addActionListener(e -> optionPane.setValue(options[8]));
+            button9.setPreferredSize(new Dimension(image9.getWidth(null), image9.getHeight(null)));
+
+            JPanel buttonPanel = new JPanel(new GridLayout(3, 3, 5, 5));
+            buttonPanel.add(button1);
+            buttonPanel.add(button2);
+            buttonPanel.add(button3);
+            buttonPanel.add(button4);
+            buttonPanel.add(button5);
+            buttonPanel.add(button6);
+            buttonPanel.add(button7);
+            buttonPanel.add(button8);
+            buttonPanel.add(button9);
+
+            JDialog dialog = optionPane.createDialog(null, "Custom Option Dialog");
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setContentPane(new JPanel(new BorderLayout()));
+            dialog.getContentPane().add(new JLabel(" "), BorderLayout.NORTH);
+            dialog.getContentPane().add(buttonPanel, BorderLayout.CENTER);
+            dialog.getContentPane().add(new JLabel(" "), BorderLayout.SOUTH);
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+
+            Object choice = optionPane.getValue();
+            int index = -1;
+            for (int i = 0; i < options.length; i++) {
+                if (options[i].equals(choice)) {
+                    index = i;
+                    break;
                 }
-                if (preY == y && Math.abs(preX - x) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                return false;
-            } else if (pos[x][y] == 12) {
-                if (k > 10) return false;
-                if (preX == x && Math.abs(preY - y) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                if (preY == y && Math.abs(preX - x) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                return false;
             }
-            return false;
+            if (index != -1) {
+                int u = index + 1;
+                pathBackground = "image/background/background" + u + ".jpg";
+            }
         }
-        if (k == 6 || k == 7 || k == 16 || k == 17) {
-            if (pos[x][y] == 1 || pos[x][y] == 3 || pos[x][y] == 5) {
-                if (preX == x && Math.abs(preY - y) == 1) return true;
-                if (preY == y && Math.abs(preX - x) == 1) return true;
-                if (preX == x && preY == 7 && y == 3 && (x == 2 || x == 3 || x == 5 || x == 6)) {
-                    if (data[x][y + 1] == 0 && data[x][y + 2] == 0 && data[x][y + 3] == 0) return true;
+
+
+        @Override
+        public void keyTyped (KeyEvent e){
+        }
+
+        @Override
+        public void keyPressed (KeyEvent e){
+
+        }
+
+        @Override
+        public void keyReleased (KeyEvent e){
+
+        }
+
+        //TODO:canMove方法判断是否能移动
+        private boolean canMove ( int preX, int preY, int x, int y, int k){
+            if (x < 1 || x > 7 || y < 1 || y > 9) return false;
+            if (k == 1 || k == 11) {
+                if (pos[x][y] == 1 || pos[x][y] == 3 || pos[x][y] == 4 || pos[x][y] == 5) {
+                    if (preX == x && Math.abs(preY - y) == 1) return true;
+                    if (preY == y && Math.abs(preX - x) == 1) return true;
                     return false;
-                }
-                if (preX == x && y == 7 && preY == 3 && (x == 2 || x == 3 || x == 5 || x == 6)) {
-                    if (data[x][preY + 1] == 0 && data[x][preY + 2] == 0 && data[x][preY + 3] == 0) return true;
+                } else if (pos[x][y] == 2) {
+                    if (k < 10) return false;
+                    if (preX == x && Math.abs(preY - y) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    if (preY == y && Math.abs(preX - x) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
                     return false;
-                }
-                if (preY == y && preX == 4 && x == 1 && (y == 4 || y == 5 || y == 6)) {
-                    if (data[x + 1][y] == 0 && data[x + 2][y] == 0) return true;
-                    return false;
-                }
-                if (preY == y && x == 4 && preX == 1 && (y == 4 || y == 5 || y == 6)) {
-                    if (data[preX + 1][y] == 0 && data[preX + 2][y] == 0) return true;
-                    return false;
-                }
-                if (preY == y && preX == 7 && x == 4 && (y == 4 || y == 5 || y == 6)) {
-                    if (data[x + 1][y] == 0 && data[x + 2][y] == 0) return true;
-                    return false;
-                }
-                if (preY == y && x == 7 && preX == 4 && (y == 4 || y == 5 || y == 6)) {
-                    if (data[preX + 1][y] == 0 && data[preX + 2][y] == 0) return true;
+                } else if (pos[x][y] == 12) {
+                    if (k > 10) return false;
+                    if (preX == x && Math.abs(preY - y) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    if (preY == y && Math.abs(preX - x) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
                     return false;
                 }
                 return false;
-            } else if (pos[x][y] == 2) {
-                if (k < 10) return false;
-                if (preX == x && Math.abs(preY - y) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                if (preY == y && Math.abs(preX - x) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                return false;
-            } else if (pos[x][y] == 12) {
-                if (k > 10) return false;
-                if (preX == x && Math.abs(preY - y) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                if (preY == y && Math.abs(preX - x) == 1) {
-                    winFlag = true;
-                    return true;
+            }
+            if (k == 6 || k == 7 || k == 16 || k == 17) {
+                if (pos[x][y] == 1 || pos[x][y] == 3 || pos[x][y] == 5) {
+                    if (preX == x && Math.abs(preY - y) == 1) return true;
+                    if (preY == y && Math.abs(preX - x) == 1) return true;
+                    if (preX == x && preY == 7 && y == 3 && (x == 2 || x == 3 || x == 5 || x == 6)) {
+                        if (data[x][y + 1] == 0 && data[x][y + 2] == 0 && data[x][y + 3] == 0) return true;
+                        return false;
+                    }
+                    if (preX == x && y == 7 && preY == 3 && (x == 2 || x == 3 || x == 5 || x == 6)) {
+                        if (data[x][preY + 1] == 0 && data[x][preY + 2] == 0 && data[x][preY + 3] == 0) return true;
+                        return false;
+                    }
+                    if (preY == y && preX == 4 && x == 1 && (y == 4 || y == 5 || y == 6)) {
+                        if (data[x + 1][y] == 0 && data[x + 2][y] == 0) return true;
+                        return false;
+                    }
+                    if (preY == y && x == 4 && preX == 1 && (y == 4 || y == 5 || y == 6)) {
+                        if (data[preX + 1][y] == 0 && data[preX + 2][y] == 0) return true;
+                        return false;
+                    }
+                    if (preY == y && preX == 7 && x == 4 && (y == 4 || y == 5 || y == 6)) {
+                        if (data[x + 1][y] == 0 && data[x + 2][y] == 0) return true;
+                        return false;
+                    }
+                    if (preY == y && x == 7 && preX == 4 && (y == 4 || y == 5 || y == 6)) {
+                        if (data[preX + 1][y] == 0 && data[preX + 2][y] == 0) return true;
+                        return false;
+                    }
+                    return false;
+                } else if (pos[x][y] == 2) {
+                    if (k < 10) return false;
+                    if (preX == x && Math.abs(preY - y) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    if (preY == y && Math.abs(preX - x) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    return false;
+                } else if (pos[x][y] == 12) {
+                    if (k > 10) return false;
+                    if (preX == x && Math.abs(preY - y) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    if (preY == y && Math.abs(preX - x) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    return false;
                 }
                 return false;
             }
-            return false;
-        }
-        if (k == 2 || k == 3 || k == 4 || k == 5 || k == 8 || k == 12 || k == 13 || k == 14 || k == 15 || k == 18) {
-            if (pos[x][y] == 1 || pos[x][y] == 3 || pos[x][y] == 5) {
-                if (preX == x && Math.abs(preY - y) == 1) return true;
-                if (preY == y && Math.abs(preX - x) == 1) return true;
-                return false;
-            } else if (pos[x][y] == 2) {
-                if (k < 10) return false;
-                if (preX == x && Math.abs(preY - y) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                if (preY == y && Math.abs(preX - x) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                return false;
-            } else if (pos[x][y] == 12) {
-                if (k > 10) return false;
-                if (preX == x && Math.abs(preY - y) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                if (preY == y && Math.abs(preX - x) == 1) {
-                    winFlag = true;
-                    return true;
-                }
-                return false;
-            } else if (pos[x][y] == 4) {
-                return false;
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
-
-    //TODO:canEat方法判断是否能吃
-    private boolean canEat(int preX, int preY, int x, int y, int k) {
-        int preK;
-        if (x < 1 || x > 7 || y < 1 || y > 9) return false;
-        if (canMove(preX, preY, x, y, k)) {
-            if (pos[x][y] == 1) {
-                if (pos[preX][preY] == 4) return false;
-                if (pos[preX][preY] == 1 || pos[preX][preY] == 3 || pos[preX][preY] == 5) {
-                    if (data[preX][preY] < 10 && data[x][y] < 10) return false;
-                    if (data[preX][preY] > 10 && data[x][y] > 10) return false;
-                    preK = data[preX][preY];
-                    if (preK > 10) preK -= 10;
-                    k = data[x][y];
-                    if (k > 10) k -= 10;
-                    if (preK == 8 && k == 1) return false;
-                    if (preK == 1 && k == 8) return true;
-                    if (preK >= k) return true;
-                }
-            }
-            if (pos[x][y] == 3) {
-                if (data[preX][preY] < 10 && data[x][y] > 10) return true;
-                if (data[preX][preY] > 10 && data[x][y] < 10) {
-                    preK = data[preX][preY];
-                    if (preK > 10) preK -= 10;
-                    k = data[x][y];
-                    if (k > 10) k -= 10;
-                    if (preK == 8 && k == 1) return false;
-                    if (preK == 1 && k == 8) return true;
-                    if (preK >= k) return true;
+            if (k == 2 || k == 3 || k == 4 || k == 5 || k == 8 || k == 12 || k == 13 || k == 14 || k == 15 || k == 18) {
+                if (pos[x][y] == 1 || pos[x][y] == 3 || pos[x][y] == 5) {
+                    if (preX == x && Math.abs(preY - y) == 1) return true;
+                    if (preY == y && Math.abs(preX - x) == 1) return true;
+                    return false;
+                } else if (pos[x][y] == 2) {
+                    if (k < 10) return false;
+                    if (preX == x && Math.abs(preY - y) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    if (preY == y && Math.abs(preX - x) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    return false;
+                } else if (pos[x][y] == 12) {
+                    if (k > 10) return false;
+                    if (preX == x && Math.abs(preY - y) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    if (preY == y && Math.abs(preX - x) == 1) {
+                        winFlag = true;
+                        return true;
+                    }
+                    return false;
+                } else if (pos[x][y] == 4) {
+                    return false;
                 }
                 return false;
-            }
-            if (pos[x][y] == 5) {
-                if (data[preX][preY] > 10 && data[x][y] < 10) return true;
-                if (data[preX][preY] < 10 && data[x][y] > 10) {
-                    preK = data[preX][preY];
-                    if (preK > 10) preK -= 10;
-                    k = data[x][y];
-                    if (k > 10) k -= 10;
-                    if (preK == 8 && k == 1) return false;
-                    if (preK == 1 && k == 8) return true;
-                    if (preK >= k) return true;
-                }
+            } else {
                 return false;
-            }
-            if (pos[x][y] == 4) {
-                if (pos[preX][preY] != 4) return false;
-                return true;
             }
         }
-        return false;
-    }
 
-    int preX = -1, preY = -1;
-
-    //TODO：行棋逻辑和每走一步都存档
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        //这里obj指的是点击的东西
-        Object obj = e.getSource();
-        int x = e.getX();
-        x = (x - 60) / 65 + 1;
-        int y = e.getY();
-        y = (y - 80) / 65 + 1;
-        //如果胜利就点击就失效
-        if ((!winFlag) && (!movewin())) {
-            if (preX == -1 && preY == -1) {
-                if ((isRedTurn && data[x][y] > 10) || ((!isRedTurn) && data[x][y] < 10)) {
-                    if (data[x][y] != 0) {
-                        preX = x;
-                        preY = y;
+        //TODO:canEat方法判断是否能吃
+        private boolean canEat ( int preX, int preY, int x, int y, int k){
+            int preK;
+            if (x < 1 || x > 7 || y < 1 || y > 9) return false;
+            if (canMove(preX, preY, x, y, k)) {
+                if (pos[x][y] == 1) {
+                    if (pos[preX][preY] == 4) return false;
+                    if (pos[preX][preY] == 1 || pos[preX][preY] == 3 || pos[preX][preY] == 5) {
+                        if (data[preX][preY] < 10 && data[x][y] < 10) return false;
+                        if (data[preX][preY] > 10 && data[x][y] > 10) return false;
+                        preK = data[preX][preY];
+                        if (preK > 10) preK -= 10;
+                        k = data[x][y];
+                        if (k > 10) k -= 10;
+                        if (preK == 8 && k == 1) return false;
+                        if (preK == 1 && k == 8) return true;
+                        if (preK >= k) return true;
                     }
                 }
-            } else {
-                if (data[x][y] == 0) {
-                    if (canMove(preX, preY, x, y, data[preX][preY])) {
-                        data[x][y] = data[preX][preY];
-                        data[preX][preY] = 0;
-                        isRedTurn = !isRedTurn;
-                        if (isRedTurn) countBlue++;
-                        if (!isRedTurn) countRed++;
-                        initChessGameImage();//TODO:刷新界面
-                        if (isRedTurn) lsTurn = 'R';
-                        else lsTurn = 'B';
-                        step += lsTurn;
-                        for (int i = 1; i <= 7; i++) {
-                            for (int j = 1; j <= 9; j++) {
-                                if (data[i][j] == 0) step += "nn";
-                                if (data[i][j] >= 1 && data[i][j] <= 8) step = step + "B" + data[i][j];
-                                if (data[i][j] >= 11 && data[i][j] <= 18) step = step + "R" + (data[i][j] - 10);
-                            }
+                if (pos[x][y] == 3) {
+                    if (data[preX][preY] < 10 && data[x][y] > 10) return true;
+                    if (data[preX][preY] > 10 && data[x][y] < 10) {
+                        preK = data[preX][preY];
+                        if (preK > 10) preK -= 10;
+                        k = data[x][y];
+                        if (k > 10) k -= 10;
+                        if (preK == 8 && k == 1) return false;
+                        if (preK == 1 && k == 8) return true;
+                        if (preK >= k) return true;
+                    }
+                    return false;
+                }
+                if (pos[x][y] == 5) {
+                    if (data[preX][preY] > 10 && data[x][y] < 10) return true;
+                    if (data[preX][preY] < 10 && data[x][y] > 10) {
+                        preK = data[preX][preY];
+                        if (preK > 10) preK -= 10;
+                        k = data[x][y];
+                        if (k > 10) k -= 10;
+                        if (preK == 8 && k == 1) return false;
+                        if (preK == 1 && k == 8) return true;
+                        if (preK >= k) return true;
+                    }
+                    return false;
+                }
+                if (pos[x][y] == 4) {
+                    if (pos[preX][preY] != 4) return false;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        int preX = -1, preY = -1;
+
+        //TODO：行棋逻辑和每走一步都存档
+        @Override
+        public void mouseClicked (MouseEvent e){
+            //这里obj指的是点击的东西
+            Object obj = e.getSource();
+            int x = e.getX();
+            x = (x - 60) / 65 + 1;
+            int y = e.getY();
+            y = (y - 80) / 65 + 1;
+            //如果胜利就点击就失效
+            if ((!winFlag) && (!movewin())) {
+                if (preX == -1 && preY == -1) {
+                    if ((isRedTurn && data[x][y] > 10) || ((!isRedTurn) && data[x][y] < 10)) {
+                        if (data[x][y] != 0) {
+                            preX = x;
+                            preY = y;
                         }
                     }
                 } else {
-                    if (canEat(preX, preY, x, y, data[preX][preY])) {
-                        data[x][y] = data[preX][preY];
-                        data[preX][preY] = 0;
-                        isRedTurn = !isRedTurn;
-                        if (isRedTurn) countBlue++;
-                        if (!isRedTurn) countRed++;
-                        initChessGameImage();//TODO：刷新界面
-                        //TODO：存档，存到step这个字符串里面
-                        if (isRedTurn) lsTurn = 'R';
-                        else lsTurn = 'B';
-                        step += lsTurn;
-                        for (int i = 1; i <= 7; i++) {
-                            for (int j = 1; j <= 9; j++) {
-                                if (data[i][j] == 0) step += "nn";
-                                if (data[i][j] >= 1 && data[i][j] <= 8) step = step + "B" + data[i][j];
-                                if (data[i][j] >= 11 && data[i][j] <= 18) step = step + "R" + (data[i][j] - 10);
+                    if (data[x][y] == 0) {
+                        if (canMove(preX, preY, x, y, data[preX][preY])) {
+                            data[x][y] = data[preX][preY];
+                            data[preX][preY] = 0;
+                            isRedTurn = !isRedTurn;
+                            if (isRedTurn) countBlue++;
+                            if (!isRedTurn) countRed++;
+                            initChessGameImage();//TODO:刷新界面
+                            if (isRedTurn) lsTurn = 'R';
+                            else lsTurn = 'B';
+                            step += lsTurn;
+                            for (int i = 1; i <= 7; i++) {
+                                for (int j = 1; j <= 9; j++) {
+                                    if (data[i][j] == 0) step += "nn";
+                                    if (data[i][j] >= 1 && data[i][j] <= 8) step = step + "B" + data[i][j];
+                                    if (data[i][j] >= 11 && data[i][j] <= 18) step = step + "R" + (data[i][j] - 10);
+                                }
+                            }
+                        }
+                    } else {
+                        if (canEat(preX, preY, x, y, data[preX][preY])) {
+                            data[x][y] = data[preX][preY];
+                            data[preX][preY] = 0;
+                            isRedTurn = !isRedTurn;
+                            if (isRedTurn) countBlue++;
+                            if (!isRedTurn) countRed++;
+                            initChessGameImage();//TODO：刷新界面
+                            //TODO：存档，存到step这个字符串里面
+                            if (isRedTurn) lsTurn = 'R';
+                            else lsTurn = 'B';
+                            step += lsTurn;
+                            for (int i = 1; i <= 7; i++) {
+                                for (int j = 1; j <= 9; j++) {
+                                    if (data[i][j] == 0) step += "nn";
+                                    if (data[i][j] >= 1 && data[i][j] <= 8) step = step + "B" + data[i][j];
+                                    if (data[i][j] >= 11 && data[i][j] <= 18) step = step + "R" + (data[i][j] - 10);
+                                }
                             }
                         }
                     }
+                    preX = -1;
+                    preY = -1;
                 }
-                preX = -1;
-                preY = -1;
-            }
-        } else {
-            new WinFrame(UserName, step);
-        }
-    }
-
-    public boolean movewin() {
-        int blue = 0;
-        int white = 0;
-        for (int i = 1; i <= 7; i++) {
-            for (int j = 1; j <= 9; j++) {
-                if (data[i][j] < 10 && data[i][j] > 0) {
-                    blue++;
-                }
-                if (data[i][j] > 10) {
-                    white++;
-                }
+            } else {
+                new WinFrame(UserName, isRedTurn);
             }
         }
-        if (blue == 0 || white == 0) {
-            return true;
-        } else {
-            return false;
+
+        //TODO：根据能否移动判断胜负
+        public boolean movewin () {
+            int blue = 0;
+            int white = 0;
+            for (int i = 1; i <= 7; i++) {
+                for (int j = 1; j <= 9; j++) {
+                    if (data[i][j] < 10 && data[i][j] > 0) {
+                        blue++;
+                    }
+                    if (data[i][j] > 10) {
+                        white++;
+                    }
+                }
+            }
+            if (blue == 0 || white == 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
+
+        @Override
+        public void mousePressed (MouseEvent e){
+
+        }
+
+        @Override
+        public void mouseReleased (MouseEvent e){
+
+        }
+
+        @Override
+        public void mouseEntered (MouseEvent e){
+
+        }
+
+        @Override
+        public void mouseExited (MouseEvent e){
+
+        }
+
+
     }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-
-}
