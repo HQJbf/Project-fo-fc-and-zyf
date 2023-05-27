@@ -1,6 +1,7 @@
 package com.help.first;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -54,22 +55,28 @@ public class RegisterJFrame extends JFrame implements MouseListener {
         this.getContentPane().removeAll();//清空原本已经出现的所有图片
 
         //添加注册用户名文字
-        JLabel userName = new JLabel(new ImageIcon("image/register/registerUserName.png"));
-        userName.setBounds(65, 105, 80, 20);
+        JLabel userName = new JLabel("用户名：");
+        userName.setBounds(104, 110, 90, 20);
+        userName.setFont(new Font("黑体", Font.BOLD, 20));
+        userName.setForeground(Color.white);
         this.getContentPane().add(userName);
         //添加注册用户名输入框
         inputbox1.setBounds(175, 105, 200, 30);
         this.getContentPane().add(inputbox1);
         //添加注册密码文字
-        JLabel password = new JLabel(new ImageIcon("image/register/registerPassword.png"));
-        password.setBounds(80, 165, 65, 18);
+        JLabel password = new JLabel("密码：");
+        password.setBounds(123, 170, 65, 18);
+        password.setFont(new Font("黑体", Font.BOLD, 20));
+        password.setForeground(Color.white);
         this.getContentPane().add(password);
         //添加注册密码输入框
         inputbox2.setBounds(175, 165, 200, 30);
         this.getContentPane().add(inputbox2);
         //添加再次输入密码文字
-        JLabel passwordAgain = new JLabel(new ImageIcon("image/register/passwordAgain.png"));
-        passwordAgain.setBounds(55, 225, 96, 20);
+        JLabel passwordAgain = new JLabel("再次输入密码：");
+        passwordAgain.setBounds(40, 232, 175, 20);
+        passwordAgain.setFont(new Font("黑体", Font.BOLD, 20));
+        passwordAgain.setForeground(Color.white);
         this.getContentPane().add(passwordAgain);
         //添加再次输入密码输入框
         inputbox3.setBounds(175, 225, 200, 30);
@@ -83,7 +90,7 @@ public class RegisterJFrame extends JFrame implements MouseListener {
         cancel.addMouseListener(this);
         this.getContentPane().add(cancel);
         //添加背景图片
-        JLabel background = new JLabel(new ImageIcon("image/register/background.png"));
+        JLabel background = new JLabel(new ImageIcon("image/register/登录界面背景(1).jpg"));
         background.setBounds(0, 0, 470, 390);
         this.getContentPane().add(background);
 
@@ -129,7 +136,8 @@ public class RegisterJFrame extends JFrame implements MouseListener {
             }
         } else if (obj == cancel) {
             setVisible(false);
-            new LoginJFrame();
+            String s=new String();
+            new LoginJFrame(s);
         }
     }
 

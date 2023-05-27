@@ -1,10 +1,10 @@
 
-import com.help.first.LoginJFrame;
+import com.help.first.*;
 
 public class Main {
     public static void main(String[] args) {
-       new LoginJFrame();
-
+          new LoginJFrame();
+       // new ChessGameFrame("123");
     }
 
 }

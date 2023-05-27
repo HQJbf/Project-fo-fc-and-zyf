@@ -458,11 +458,17 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
         Object obj = e.getSource();
         if (obj == reloginItem) {
             this.setVisible(false);
-            new LoginJFrame();
+            String s=new String();
+            new LoginJFrame(s);
         } else if (obj == saveItem) {
             new SaveJFrame(UserName, step);
         } else if (obj == loadItem) {
-            new LoadJFrame(UserName);
+//            try {
+//                makeChoiceFrame2();
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            }
+             new LoadJFrame(UserName);
             setVisible(false);
         } else if (obj == restartButton) {
             initZero();
@@ -486,15 +492,17 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 throw new RuntimeException(ex);
             }
             initChessGameImage();
-        } else if (obj == changeMusic) {
-            if (!isMusicUp) {
-                LoginJFrame.pauseMusic();// 调用LoginJFrame类的静态方法，暂停音乐
-                initChessGameImage();
-            } else {
-                LoginJFrame.resumeMusic(); // 调用LoginJFrame类的静态方法，继续播放音乐
-                initChessGameImage();
-            }
-        }else if(obj==changeChessboard){
+        }
+//        else if (obj == changeMusic) {
+//            if (!isMusicUp) {
+//                LoginJFrame.pauseMusic();// 调用LoginJFrame类的静态方法，暂停音乐
+//                initChessGameImage();
+//            } else {
+//                LoginJFrame.resumeMusic(); // 调用LoginJFrame类的静态方法，继续播放音乐
+//                initChessGameImage();
+//            }
+//        }
+        else if(obj==changeChessboard){
             if(pathChessboard.equals("image/chessboard/chessboard.jpg")){
                 pathChessboard="image/chessboard/chessboard2.jpg";
                 initChessGameImage();
@@ -579,7 +587,7 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
             buttonPanel.add(button8);
             buttonPanel.add(button9);
 
-            JDialog dialog = optionPane.createDialog(null, "Custom Option Dialog");
+            JDialog dialog = optionPane.createDialog(null, ".                                          请选择你想要的背景");
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             dialog.setContentPane(new JPanel(new BorderLayout()));
             dialog.getContentPane().add(new JLabel(" "), BorderLayout.NORTH);
@@ -602,6 +610,103 @@ public class ChessGameFrame extends JFrame implements KeyListener, MouseListener
                 pathBackground = "image/background/background" + u + ".jpg";
             }
         }
+    private void makeChoiceFrame2 () throws IOException {
+        String[] options = {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7", "Option 8", "Option 9"};
+        JOptionPane optionPane = new JOptionPane();
+        optionPane.setMessage("请选择你想要的背景");
+        optionPane.setMessageType(JOptionPane.PLAIN_MESSAGE);
+        optionPane.setOptionType(JOptionPane.DEFAULT_OPTION);
+        optionPane.setBackground(Color.WHITE);
+
+        Image image1 = ImageIO.read(new File("image/saveButton/save1.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image2 = ImageIO.read(new File("image/saveButton/save2.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image3 = ImageIO.read(new File("image/saveButton/save3.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image4 = ImageIO.read(new File("image/saveButton/save4.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image5 = ImageIO.read(new File("image/saveButton/save5.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image6 = ImageIO.read(new File("image/saveButton/save6.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image7 = ImageIO.read(new File("image/saveButton/save7.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image8 = ImageIO.read(new File("image/saveButton/save8.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image image9 = ImageIO.read(new File("image/saveButton/save9.jpg")).getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+
+        JButton button1 = new JButton(new ImageIcon(image1));
+        button1.setToolTipText(options[0]);
+        button1.addActionListener(e -> optionPane.setValue(options[0]));
+        button1.setPreferredSize(new Dimension(image1.getWidth(null), image1.getHeight(null)));
+
+        JButton button2 = new JButton(new ImageIcon(image2));
+        button2.setToolTipText(options[1]);
+        button2.addActionListener(e -> optionPane.setValue(options[1]));
+        button2.setPreferredSize(new Dimension(image2.getWidth(null), image2.getHeight(null)));
+
+        JButton button3 = new JButton(new ImageIcon(image3));
+        button3.setToolTipText(options[2]);
+        button3.addActionListener(e -> optionPane.setValue(options[2]));
+        button3.setPreferredSize(new Dimension(image3.getWidth(null), image3.getHeight(null)));
+
+        JButton button4 = new JButton(new ImageIcon(image4));
+        button4.setToolTipText(options[3]);
+        button4.addActionListener(e -> optionPane.setValue(options[3]));
+        button4.setPreferredSize(new Dimension(image4.getWidth(null), image4.getHeight(null)));
+
+        JButton button5 = new JButton(new ImageIcon(image5));
+        button5.setToolTipText(options[4]);
+        button5.addActionListener(e -> optionPane.setValue(options[4]));
+        button5.setPreferredSize(new Dimension(image5.getWidth(null), image5.getHeight(null)));
+
+        JButton button6 = new JButton(new ImageIcon(image6));
+        button6.setToolTipText(options[5]);
+        button6.addActionListener(e -> optionPane.setValue(options[5]));
+        button6.setPreferredSize(new Dimension(image6.getWidth(null), image6.getHeight(null)));
+
+        JButton button7 = new JButton(new ImageIcon(image7));
+        button7.setToolTipText(options[6]);
+        button7.addActionListener(e -> optionPane.setValue(options[6]));
+        button7.setPreferredSize(new Dimension(image7.getWidth(null), image7.getHeight(null)));
+
+        JButton button8 = new JButton(new ImageIcon(image8));
+        button8.setToolTipText(options[7]);
+        button8.addActionListener(e -> optionPane.setValue(options[7]));
+        button8.setPreferredSize(new Dimension(image8.getWidth(null), image8.getHeight(null)));
+
+        JButton button9 = new JButton(new ImageIcon(image9));
+        button9.setToolTipText(options[8]);
+        button9.addActionListener(e -> optionPane.setValue(options[8]));
+        button9.setPreferredSize(new Dimension(image9.getWidth(null), image9.getHeight(null)));
+
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 3, 5, 5));
+        buttonPanel.add(button1);
+        buttonPanel.add(button2);
+        buttonPanel.add(button3);
+        buttonPanel.add(button4);
+        buttonPanel.add(button5);
+        buttonPanel.add(button6);
+        buttonPanel.add(button7);
+        buttonPanel.add(button8);
+        buttonPanel.add(button9);
+
+        JDialog dialog = optionPane.createDialog(null, "Custom Option Dialog");
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setContentPane(new JPanel(new BorderLayout()));
+        dialog.getContentPane().add(new JLabel(" "), BorderLayout.NORTH);
+        dialog.getContentPane().add(buttonPanel, BorderLayout.CENTER);
+        dialog.getContentPane().add(new JLabel(" "), BorderLayout.SOUTH);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        Object choice = optionPane.getValue();
+        int index = -1;
+        for (int i = 0; i < options.length; i++) {
+            if (options[i].equals(choice)) {
+                index = i;
+                break;
+            }
+        }
+        if (index != -1) {
+            int u = index + 1;
+            pathBackground = "image/background/background" + u + ".jpg";
+        }
+    }
 
 
         @Override

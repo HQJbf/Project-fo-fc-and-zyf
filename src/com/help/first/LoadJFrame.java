@@ -23,7 +23,7 @@ public class LoadJFrame extends JFrame implements MouseListener, ActionListener 
     public LoadJFrame(String UserName) {
         this.UserName = UserName;
         directory = new File("User\\" + UserName);
-        for (int i = 1; i <= 9; i++) save[i] = new JButton(new ImageIcon("image\\saveButton\\save" + i + ".png"));
+        for (int i = 1; i <= 9; i++) save[i] = new JButton(new ImageIcon("image\\saveButton\\save" + i + ".jpg"));
         for (int i = 1; i <= 9; i++) file[i] = new File(directory, "save\\save" + i + ".txt");
         initJFrame();
         initJButton();
@@ -32,7 +32,7 @@ public class LoadJFrame extends JFrame implements MouseListener, ActionListener 
     //初始化界面
     private void initJFrame() {
         //设置宽高
-        this.setSize(333, 333);
+        this.setSize(333, 260);
         //设置标题
         this.setTitle("载入游戏");
         //设置置顶
